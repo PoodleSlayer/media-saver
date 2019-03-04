@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PhotoHelper.Views.SettingsPage">
+    <ContentPage.Content>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*" />
+				<ColumnDefinition Width="1*" />
+				<ColumnDefinition Width="1*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="6*" />
+			</Grid.RowDefinitions>
+			<Label Text="Settings"
+				   HorizontalOptions="Center"
+				   VerticalOptions="CenterAndExpand"
+				   FontSize="Large"
+				   Grid.Row="0"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2" />
+			<Button x:Name="BackBtn"
+					Text="Back"
+					Grid.Row="0"
+					Grid.Column="2" />
+			<Label Text="Save Location"
+				   HorizontalOptions="Center"
+				   Grid.Row="2"
+				   Grid.Column="0" />
+			<Entry Grid.Row="3"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="3"
+				   Margin="10, 0, 10, 0" />
+		</Grid>
+		
+        <!--<StackLayout>
+            <Label Text="This is the Settings Page for specifying the save location."
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand" />
+			<Button x:Name="BackBtn"
+					Text="Go Back"
+					HorizontalOptions="Center" />
+        </StackLayout>-->
+    </ContentPage.Content>
+</ContentPage>

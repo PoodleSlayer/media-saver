@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PhotoHelper.Views.GalleryPage">
+    <ContentPage.Content>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*" />
+				<ColumnDefinition Width="1*" />
+				<ColumnDefinition Width="1*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="8*" />
+			</Grid.RowDefinitions>
+			<Label Text="Gallery"
+				   HorizontalOptions="Center"
+				   VerticalOptions="CenterAndExpand"
+				   FontSize="Large"
+				   Grid.Row="0"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2" />
+			<Button x:Name="BackBtn"
+					Text="Back"
+					HorizontalOptions="CenterAndExpand"
+					Grid.Row="0"
+					Grid.Column="2" />
+			<ScrollView Grid.Row="2"
+						Grid.Column="0"
+						Grid.ColumnSpan="3">
+				<ListView x:Name="pageList" />
+			</ScrollView>
+		</Grid>
+		
+        <!--<StackLayout>
+            <Label Text="This is the Gallery Page for viewing and editing saved pages."
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand" />
+			<Button x:Name="BackBtn"
+					Text="Go Back" 
+					HorizontalOptions="Center" />
+		</StackLayout>-->
+    </ContentPage.Content>
+</ContentPage>
