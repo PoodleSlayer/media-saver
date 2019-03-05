@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 using PhotoHelper.Views;
+using PhotoHelper.IoC;
+using Autofac;
+using PhotoHelper.ViewModels;
 
 namespace PhotoHelper
 {
@@ -22,6 +25,8 @@ namespace PhotoHelper
 		public MainPage()
 		{
 			InitializeComponent();
+
+			BindingContext = AppContainer.Container.Resolve<MainViewModel>();
 
 			DownloadBtn.Clicked += DownloadBtn_Clicked;
 			BackBtn.Clicked += BackBtn_Clicked;
@@ -66,7 +71,7 @@ namespace PhotoHelper
 			string pageUrl = await webby.EvaluateJavaScriptAsync("document.location.href");
 			string imgJson = await GetImgUrl(pageUrl);
 
-			;
+			;  // debug line
 		}
 
 		/// <summary>
@@ -128,6 +133,17 @@ namespace PhotoHelper
 			// save in the file path specified by the user in Settings.
 
 			return true;
+		}
+
+		/// <summary>
+		/// Helper readonly property for interacting with the BindingContext
+		/// </summary>
+		private MainViewModel ViewModel
+		{
+			get
+			{
+				return BindingContext as MainViewModel;
+			}
 		}
 	}
 }

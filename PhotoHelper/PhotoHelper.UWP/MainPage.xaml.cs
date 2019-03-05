@@ -1,4 +1,5 @@
 ﻿using System;
+using PhotoHelper.UWP.IoC;
 
 namespace PhotoHelper.UWP
 {
@@ -8,7 +9,7 @@ namespace PhotoHelper.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new PhotoHelper.App());
+            LoadApplication(new PhotoHelper.App(new SetupUWP()));
         }
     }
 }

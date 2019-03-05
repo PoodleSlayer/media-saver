@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 using Foundation;
+using PhotoHelper.iOS.IoC;
 using UIKit;
 
 namespace PhotoHelper.iOS
@@ -23,7 +22,7 @@ namespace PhotoHelper.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            LoadApplication(new App(new SetupiOS()));
 
             return base.FinishedLaunching(app, options);
         }

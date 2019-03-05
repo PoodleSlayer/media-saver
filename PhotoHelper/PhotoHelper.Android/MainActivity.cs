@@ -2,10 +2,8 @@
 
 using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
+using PhotoHelper.Droid.IoC;
 
 namespace PhotoHelper.Droid
 {
@@ -19,7 +17,7 @@ namespace PhotoHelper.Droid
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+            LoadApplication(new App(new SetupDroid()));
         }
     }
 }

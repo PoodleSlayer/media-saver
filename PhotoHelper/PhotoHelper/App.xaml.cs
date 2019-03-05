@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PhotoHelper.IoC;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,8 +8,10 @@ namespace PhotoHelper
 {
 	public partial class App : Application
 	{
-		public App()
+		public App(AppSetup setup)
 		{
+			AppContainer.Container = setup.CreateContainer();
+
 			InitializeComponent();
 
 			MainPage = new MainPage();
