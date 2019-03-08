@@ -10,7 +10,7 @@ namespace PhotoHelper.Droid.IoC
 		{
 			base.RegisterDependencies(cb);
 
-			cb.RegisterType<FileService>().As<IFileService>();
+			cb.RegisterType<FileService>().As<IFileService>().SingleInstance();
 		}
 	}
 }

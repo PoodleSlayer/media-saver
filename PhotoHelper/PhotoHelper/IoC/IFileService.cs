@@ -8,6 +8,7 @@ namespace PhotoHelper.IoC
     public interface IFileService
     {
 		string SaveLocation { get; set; }
+		string GetAppData();
 		void ChooseLocation();
 		Task<bool> DownloadFile(string downloadURL);
     }

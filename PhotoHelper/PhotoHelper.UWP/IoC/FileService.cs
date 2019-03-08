@@ -14,6 +14,11 @@ namespace PhotoHelper.UWP.IoC
 	{
 		public string SaveLocation { get; set; }
 
+		public string GetAppData()
+		{
+			return ApplicationData.Current.LocalCacheFolder.Path;
+		}
+
 		public async void ChooseLocation()
 		{
 			var folderPicker = new Windows.Storage.Pickers.FolderPicker();
@@ -23,6 +28,9 @@ namespace PhotoHelper.UWP.IoC
 			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 			if (folder != null)
 			{
+				// I don't understand this but thanks stackoverflow
+				Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
+
 				string destFolder = folder.Name;
 				SaveLocation = folder.Path;
 			}

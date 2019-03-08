@@ -8,6 +8,11 @@ namespace PhotoHelper.iOS.IoC
 	{
 		public string SaveLocation { get; set; }
 
+		public string GetAppData()
+		{
+			return "";
+		}
+
 		public void ChooseLocation()
 		{
 

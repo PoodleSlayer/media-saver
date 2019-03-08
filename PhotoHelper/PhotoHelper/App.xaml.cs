@@ -1,5 +1,7 @@
-﻿using PhotoHelper.IoC;
-using System;
+﻿using System;
+using Autofac;
+using LiteDB;
+using PhotoHelper.IoC;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -30,6 +32,19 @@ namespace PhotoHelper
 		protected override void OnResume()
 		{
 			// Handle when your app resumes
+		}
+
+		private LiteDatabase database;
+		public LiteDatabase Database
+		{
+			get
+			{
+				if (database == null)
+				{
+					database = new LiteDatabase(AppContainer.Container.Resolve<IFileService>().GetAppData() + @"\local.db");
+				}
+				return database;
+			}
 		}
 	}
 }

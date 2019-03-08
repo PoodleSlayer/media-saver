@@ -21,6 +21,7 @@ namespace PhotoHelper
 		private HttpClient client;
 		private GalleryPage galleryPage;
 		private SettingsPage settingsPage;
+		private SavePage savePage;
 		private IFileService fileHelper;
 
 		public MainPage()
@@ -34,10 +35,17 @@ namespace PhotoHelper
 			BackBtn.Clicked += BackBtn_Clicked;
 			SettingsBtn.Clicked += SettingsBtn_Clicked;
 			GalleryBtn.Clicked += GalleryBtn_Clicked;
+			SaveBtn.Clicked += SaveBtn_Clicked;
 
 			client = new HttpClient();
 			galleryPage = new GalleryPage();
 			settingsPage = new SettingsPage();
+			savePage = new SavePage();
+		}
+
+		private void SaveBtn_Clicked(object sender, EventArgs e)
+		{
+			Navigation.PushModalAsync(savePage);
 		}
 
 		private void GalleryBtn_Clicked(object sender, EventArgs e)
@@ -57,25 +65,27 @@ namespace PhotoHelper
 
 		private async void DownloadBtn_Clicked(object sender, EventArgs e)
 		{
+			//*****************************************************************
+			// just a graveyard of stupid stuff i tried for future Chris to learn from
+			//
 			//string testSource = await webby.EvaluateJavaScriptAsync("document.body.getElementsByTagName('img')[1]");
-
+			//
 			//string pageSource = await webby.EvaluateJavaScriptAsync("document.head.innerHTML");
 			//string pageSource = await webby.EvaluateJavaScriptAsync("document.body.innerHTML");
 			//string jsHorseCrap = "function GetThingPlease(){const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) { if (metas[i].getAttribute('property') === 'og:image') { return metas[i].getAttribute('content'); } } return '';}";
 			//string jsHorseCrap = "function GetThingPlease(){const imgs = document.getElementsByTagName('img'); for (let i = 0; i < imgs.length; i++) { if (i == 1) { return imgs[i].getAttribute('src'); } } return '';}";
-
+			//
 			// uhhhhh
 			//string jsHorseCrap = "function GetThingPlease(){const imgs = document.getElementsByTagName('img'); imgArray = ''; for (let i = 0; i < imgs.length; i++) { imgArray = imgArray + imgs[i].getAttribute('src') + ', '; } return imgArray;}";
-
+			//
 			//string pleaseWork = await webby.EvaluateJavaScriptAsync(jsHorseCrap);
 			//string pleaseWork2 = await webby.EvaluateJavaScriptAsync("GetThingPlease()");
+			//*****************************************************************
 
 			string pageUrl = await webby.EvaluateJavaScriptAsync("document.location.href");
 			string imgJson = await GetImgUrl(pageUrl);
 
 			await DownloadURL(imgJson);
-
-			;  // debug line
 		}
 
 		/// <summary>
