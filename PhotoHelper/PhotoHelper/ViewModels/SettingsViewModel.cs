@@ -10,5 +10,6 @@ namespace PhotoHelper.ViewModels
 	/// </summary>
     public class SettingsViewModel : PHViewModel
     {
+
     }
 }

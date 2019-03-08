@@ -21,12 +21,14 @@ namespace PhotoHelper
 		private HttpClient client;
 		private GalleryPage galleryPage;
 		private SettingsPage settingsPage;
+		private IFileService fileHelper;
 
 		public MainPage()
 		{
 			InitializeComponent();
 
 			BindingContext = AppContainer.Container.Resolve<MainViewModel>();
+			fileHelper = AppContainer.Container.Resolve<IFileService>();
 
 			DownloadBtn.Clicked += DownloadBtn_Clicked;
 			BackBtn.Clicked += BackBtn_Clicked;
@@ -70,6 +72,8 @@ namespace PhotoHelper
 
 			string pageUrl = await webby.EvaluateJavaScriptAsync("document.location.href");
 			string imgJson = await GetImgUrl(pageUrl);
+
+			await DownloadURL(imgJson);
 
 			;  // debug line
 		}
@@ -129,8 +133,14 @@ namespace PhotoHelper
 
 		private async Task<bool> DownloadURL(string downloadURL)
 		{
+			if (String.IsNullOrEmpty(downloadURL))
+			{
+				return false;
+			}
+
 			// async download media from the URL. should be an image or a video.
 			// save in the file path specified by the user in Settings.
+			await fileHelper.DownloadFile(downloadURL);
 
 			return true;
 		}

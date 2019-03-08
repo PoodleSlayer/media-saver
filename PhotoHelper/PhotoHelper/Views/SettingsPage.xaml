@@ -30,12 +30,19 @@
 					Grid.Column="2" />
 			<Label Text="Save Location"
 				   HorizontalOptions="Center"
-				   Grid.Row="2"
+				   Grid.Row="1"
 				   Grid.Column="0" />
-			<Entry Grid.Row="3"
+			<Label Text="Please specify a location..."
+				   x:Name="DestFolderLbl"
+				   Grid.Row="2"
 				   Grid.Column="0"
 				   Grid.ColumnSpan="3"
 				   Margin="10, 0, 10, 0" />
+			<Button Text="Choose Folder"
+					x:Name="SelectBtn"
+					Grid.Row="3"
+					Grid.Column="0"
+					Grid.ColumnSpan="3" />
 		</Grid>
 		
         <!--<StackLayout>
