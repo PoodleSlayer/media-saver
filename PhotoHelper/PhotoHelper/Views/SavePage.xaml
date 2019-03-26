@@ -19,42 +19,49 @@
 				<RowDefinition Height="1*" />
 				<RowDefinition Height="1*" />
 				<RowDefinition Height="1*" />
-				<RowDefinition Height="2*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
 			</Grid.RowDefinitions>
 			<Button Text="Back"
 					x:Name="BackBtn"
 					Grid.Column="2"
 					Grid.Row="0" />
+			<Label Text="Save Page As..."
+				   HorizontalOptions="Center"
+				   VerticalOptions="CenterAndExpand"
+				   FontSize="Large"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   Grid.Row="0" />
 			<Label Text="Page URL"
 				   Grid.Column="0"
-				   Grid.Row="0" />
+				   Grid.Row="1" />
 			<Label Text="blah.blah.blah"
 				   Grid.Column="0"
-				   Grid.Row="1"
+				   Grid.Row="2"
 				   Grid.ColumnSpan="3" />
 			<Label Text="Page Name"
 				   Grid.Column="0"
-				   Grid.Row="2" />
-			<Entry Text="Save page as..."
-				   Grid.Column="0"
 				   Grid.Row="3" />
-			<Label Text="Load as default page?"
+			<Entry Placeholder="Save page as..."
 				   Grid.Column="0"
 				   Grid.Row="4" />
+			<Label Text="Load as default page?"
+				   Grid.Column="0"
+				   Grid.Row="5" />
 			<Switch x:Name="DefaultSwitch"
 					Grid.Column="0"
-					Grid.Row="5" />
+					Grid.Row="6" />
 			<Label Text="File Name for Media"
 				   Grid.Column="0"
-				   Grid.Row="6" />
-			<Entry Text="Save media as..."
+				   Grid.Row="7" />
+			<Entry Placeholder="Save media as..."
 				   Grid.Column="0"
-				   Grid.Row="7"
+				   Grid.Row="8"
 				   Grid.ColumnSpan="3" />
 			<Button Text="Save Page"
 					Grid.Column="1"
-					Grid.Row="8" />
-
+					Grid.Row="9" />
 		</Grid>
     </ContentPage.Content>
 </ContentPage>

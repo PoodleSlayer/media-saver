@@ -24,7 +24,6 @@
 				   Grid.ColumnSpan="2" />
 			<Button x:Name="BackBtn"
 					Text="Back"
-					HorizontalOptions="CenterAndExpand"
 					Grid.Row="0"
 					Grid.Column="2" />
 			<ScrollView Grid.Row="2"
