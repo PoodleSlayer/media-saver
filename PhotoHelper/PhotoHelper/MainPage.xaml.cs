@@ -36,11 +36,17 @@ namespace PhotoHelper
 			SettingsBtn.Clicked += SettingsBtn_Clicked;
 			GalleryBtn.Clicked += GalleryBtn_Clicked;
 			SaveBtn.Clicked += SaveBtn_Clicked;
+			webby.Navigated += Webby_Navigated;
 
 			client = new HttpClient();
 			galleryPage = new GalleryPage();
 			settingsPage = new SettingsPage();
 			savePage = new SavePage();
+		}
+
+		private void Webby_Navigated(object sender, WebNavigatedEventArgs e)
+		{
+			ViewModel.CurrentURL = e.Url;
 		}
 
 		private void SaveBtn_Clicked(object sender, EventArgs e)
@@ -160,10 +166,7 @@ namespace PhotoHelper
 		/// </summary>
 		private MainViewModel ViewModel
 		{
-			get
-			{
-				return BindingContext as MainViewModel;
-			}
+			get => BindingContext as MainViewModel;
 		}
 	}
 }

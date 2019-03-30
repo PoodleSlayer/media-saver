@@ -48,10 +48,7 @@ namespace PhotoHelper.Views
 
 		private SettingsViewModel ViewModel
 		{
-			get
-			{
-				return BindingContext as SettingsViewModel;
-			}
+			get => BindingContext as SettingsViewModel;
 		}
 	}
 }

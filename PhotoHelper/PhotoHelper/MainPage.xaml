@@ -19,6 +19,7 @@
 		<Label Text="Photo Helper v1.0"
 			   VerticalOptions="Center"
 			   HorizontalOptions="Center"
+			   FontSize="Large"
 			   Grid.Column="0"
 			   Grid.Row="0"
 			   Grid.ColumnSpan="3"/>

@@ -36,6 +36,7 @@ namespace PhotoHelper.IoC
 			cb.RegisterType<MainViewModel>().SingleInstance();
 			cb.RegisterType<GalleryViewModel>().SingleInstance();
 			cb.RegisterType<SettingsViewModel>().SingleInstance();
+			cb.RegisterType<SaveViewModel>().SingleInstance();
 		}
     }
 }
