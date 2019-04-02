@@ -26,6 +26,7 @@ namespace PhotoHelper.Views
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
+			ViewModel.DidAppear();
 		}
 
 		private void BackBtn_Clicked(object sender, EventArgs e)

@@ -44,14 +44,5 @@
 					Grid.Column="0"
 					Grid.ColumnSpan="3" />
 		</Grid>
-		
-        <!--<StackLayout>
-            <Label Text="This is the Settings Page for specifying the save location."
-                VerticalOptions="Center" 
-                HorizontalOptions="CenterAndExpand" />
-			<Button x:Name="BackBtn"
-					Text="Go Back"
-					HorizontalOptions="Center" />
-        </StackLayout>-->
-    </ContentPage.Content>
+	</ContentPage.Content>
 </ContentPage>

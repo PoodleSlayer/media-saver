@@ -36,12 +36,19 @@ namespace PhotoHelper
 			SettingsBtn.Clicked += SettingsBtn_Clicked;
 			GalleryBtn.Clicked += GalleryBtn_Clicked;
 			SaveBtn.Clicked += SaveBtn_Clicked;
+			URLBtn.Clicked += URLBtn_Clicked;
+
 			webby.Navigated += Webby_Navigated;
 
 			client = new HttpClient();
 			galleryPage = new GalleryPage();
 			settingsPage = new SettingsPage();
 			savePage = new SavePage();
+		}
+
+		private void URLBtn_Clicked(object sender, EventArgs e)
+		{
+			LoadNewURL(URLEntry.Text);
 		}
 
 		private void Webby_Navigated(object sender, WebNavigatedEventArgs e)
@@ -159,6 +166,23 @@ namespace PhotoHelper
 			await fileHelper.DownloadFile(downloadURL);
 
 			return true;
+		}
+
+		private void LoadNewURL(string urlName)
+		{
+			if (urlName.StartsWith("http"))
+			{
+				// user entered the URL directly, just try to load it
+				webby.Source = urlName;
+			}
+			else if (urlName.StartsWith("@"))
+			{
+				webby.Source = @"https://www.instagram.com/" + urlName.Replace("@", "") + @"/";
+			}
+			else
+			{
+				webby.Source = @"https://www.instagram.com/" + urlName + @"/";
+			}
 		}
 
 		/// <summary>
