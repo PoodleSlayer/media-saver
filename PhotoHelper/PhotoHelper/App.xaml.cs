@@ -34,8 +34,8 @@ namespace PhotoHelper
 			// Handle when your app resumes
 		}
 
-		private LiteDatabase database;
-		public LiteDatabase Database
+		private static LiteDatabase database;
+		public static LiteDatabase Database
 		{
 			get
 			{

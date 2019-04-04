@@ -13,6 +13,7 @@ using PhotoHelper.Views;
 using PhotoHelper.IoC;
 using Autofac;
 using PhotoHelper.ViewModels;
+using PhotoHelper.Utility;
 
 namespace PhotoHelper
 {
@@ -44,6 +45,9 @@ namespace PhotoHelper
 			galleryPage = new GalleryPage();
 			settingsPage = new SettingsPage();
 			savePage = new SavePage();
+
+			// load the Settings and any other stuff we may need
+			Settings.LoadSettings();
 		}
 
 		private void URLBtn_Clicked(object sender, EventArgs e)
@@ -170,6 +174,11 @@ namespace PhotoHelper
 
 		private void LoadNewURL(string urlName)
 		{
+			if (String.IsNullOrEmpty(urlName))
+			{
+				return;
+			}
+
 			if (urlName.StartsWith("http"))
 			{
 				// user entered the URL directly, just try to load it

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.IoC;
 using PhotoHelper.ViewModels;
 using System;
@@ -34,6 +35,25 @@ namespace PhotoHelper.Views
 			{
 				DestFolderLbl.Text = fileHelper.SaveLocation;
 			}
+		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			// subscribe for messages
+			Messenger.Default.Register<NotificationMessage>(this, UpdateFolderLabel);
+		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+			// unsubscribe from messages
+			Messenger.Default.Unregister<NotificationMessage>(this, UpdateFolderLabel);
+		}
+
+		private void UpdateFolderLabel(NotificationMessage msg)
+		{
+			DestFolderLbl.Text = fileHelper.SaveLocation;
 		}
 
 		private void SelectBtn_Clicked(object sender, EventArgs e)
