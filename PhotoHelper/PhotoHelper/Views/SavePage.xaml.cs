@@ -29,6 +29,13 @@ namespace PhotoHelper.Views
 			ViewModel.DidAppear();
 		}
 
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+			ViewModel.DidDisappear();
+		}
+
+		// move all of these to a command in the base view model since basically all pages will have a back button
 		private void BackBtn_Clicked(object sender, EventArgs e)
 		{
 			Navigation.PopModalAsync();

@@ -41,13 +41,14 @@ namespace PhotoHelper
 
 			webby.Navigated += Webby_Navigated;
 
+			// load the Settings and any other stuff we may need
+			Settings.LoadSettings();
+
+			// initialize all pages since there's only a few
 			client = new HttpClient();
 			galleryPage = new GalleryPage();
 			settingsPage = new SettingsPage();
 			savePage = new SavePage();
-
-			// load the Settings and any other stuff we may need
-			Settings.LoadSettings();
 		}
 
 		private void URLBtn_Clicked(object sender, EventArgs e)

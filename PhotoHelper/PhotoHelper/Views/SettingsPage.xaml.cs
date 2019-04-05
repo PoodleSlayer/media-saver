@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.IoC;
+using PhotoHelper.Utility;
 using PhotoHelper.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -23,37 +24,29 @@ namespace PhotoHelper.Views
 			InitializeComponent ();
 			BackBtn.Clicked += BackBtn_Clicked;
 			SelectBtn.Clicked += SelectBtn_Clicked;
+			SaveBtn.Clicked += SaveBtn_Clicked;
 
 			BindingContext = AppContainer.Container.Resolve<SettingsViewModel>();
 
 			fileHelper = AppContainer.Container.Resolve<IFileService>();
-			if (String.IsNullOrEmpty(fileHelper.SaveLocation))
-			{
-				DestFolderLbl.Text = "Please choose a folder...";
-			}
-			else
-			{
-				DestFolderLbl.Text = fileHelper.SaveLocation;
-			}
+		}
+
+		private void SaveBtn_Clicked(object sender, EventArgs e)
+		{
+			Settings.SaveLocation = fileHelper.SaveLocation;
+			Settings.SaveSettings();
 		}
 
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			// subscribe for messages
-			Messenger.Default.Register<NotificationMessage>(this, UpdateFolderLabel);
+			ViewModel.DidAppear();
 		}
 
 		protected override void OnDisappearing()
 		{
 			base.OnDisappearing();
-			// unsubscribe from messages
-			Messenger.Default.Unregister<NotificationMessage>(this, UpdateFolderLabel);
-		}
-
-		private void UpdateFolderLabel(NotificationMessage msg)
-		{
-			DestFolderLbl.Text = fileHelper.SaveLocation;
+			ViewModel.DidDisappear();
 		}
 
 		private void SelectBtn_Clicked(object sender, EventArgs e)

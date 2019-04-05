@@ -9,7 +9,10 @@ namespace PhotoHelper.Models
 	{
 		[BsonIgnore]
 		public static readonly string CollectionName = "settings";
-		
+
+		[BsonIgnore]
+		public static readonly string IdName = "settingsFile";
+
 		public string Id = "settingsFile";
 
 		public string SaveLocation { get; set; }

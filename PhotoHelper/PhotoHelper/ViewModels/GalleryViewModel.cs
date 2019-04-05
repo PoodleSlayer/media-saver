@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PhotoHelper.Models;
+using System;
+using System.Collections.ObjectModel;
 
 namespace PhotoHelper.ViewModels
 {
@@ -9,6 +11,26 @@ namespace PhotoHelper.ViewModels
 	/// </summary>
     public class GalleryViewModel : PHViewModel
     {
+		private ObservableCollection<PageModel> pageList;
+		public ObservableCollection<PageModel> PageList
+		{
+			get => pageList;
+			set
+			{
+				pageList = value;
+				RaisePropertyChanged("PageList");
+			}
+		}
 
+		public void DidAppear()
+		{
+			var pageCollection = App.Database.GetCollection<PageModel>(PageModel.CollectionName);
+			PageList = new ObservableCollection<PageModel>(pageCollection.FindAll());
+		}
+
+		public void DidDisappear()
+		{
+
+		}
     }
 }

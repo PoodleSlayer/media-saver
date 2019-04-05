@@ -30,13 +30,22 @@ namespace PhotoHelper.ViewModels
 		{
 			PageURL = AppContainer.Container.Resolve<MainViewModel>().CurrentURL;
 
-			newPage = new PageModel()
+			var pageCollection = App.Database.GetCollection<PageModel>(PageModel.CollectionName);
+			var pageItem = pageCollection.FindOne(x => x.PageURL == PageURL);
+			if (pageItem == null)
 			{
-				PageURL = PageURL,
-				PageName = "",
-				PageFileName = "",
-				DefaultPage = false,
-			};
+				newPage = new PageModel()
+				{
+					PageURL = PageURL,
+					PageName = "",
+					PageFileName = "",
+					DefaultPage = false,
+				};
+			}
+			else
+			{
+				newPage = pageItem;
+			}
 
 			PageName = newPage.PageName;
 			PageFileName = newPage.PageFileName;
@@ -45,6 +54,11 @@ namespace PhotoHelper.ViewModels
 
 			// maybe try loading from database if user already has this page saved? so they
 			// can possibly edit their settings for it
+		}
+
+		public void DidDisappear()
+		{
+			// in case we need this
 		}
 
 		private void SavePage()
@@ -57,7 +71,9 @@ namespace PhotoHelper.ViewModels
 				PageFileName = PageFileName,
 				DefaultPage = DefaultPage
 			};
-			;
+
+			var pageCollection = App.Database.GetCollection<PageModel>(PageModel.CollectionName);
+			pageCollection.Upsert(PageURL, newPage);
 		}
 
 		public string PageName

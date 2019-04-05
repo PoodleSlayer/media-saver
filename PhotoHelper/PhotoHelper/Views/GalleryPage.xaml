@@ -26,11 +26,24 @@
 					Text="Back"
 					Grid.Row="0"
 					Grid.Column="2" />
-			<ScrollView Grid.Row="2"
-						Grid.Column="0"
-						Grid.ColumnSpan="3">
-				<ListView x:Name="pageList" />
-			</ScrollView>
+			<ListView x:Name="PageListView"
+					  ItemsSource="{Binding PageList}"
+					  Grid.Row="2"
+					  Grid.Column="0"
+					  Grid.ColumnSpan="3" >
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<StackLayout Orientation="Horizontal">
+								<Label Text="{Binding PageName}"
+									   FontAttributes="Bold"
+									   FontSize="Large"
+									   Margin="15,10,15,10"/>
+							</StackLayout>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
 		</Grid>
 		
         <!--<StackLayout>
