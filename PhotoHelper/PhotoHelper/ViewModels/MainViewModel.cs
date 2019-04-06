@@ -8,6 +8,14 @@ namespace PhotoHelper.ViewModels
 	/// </summary>
     public class MainViewModel : PHViewModel
     {
+		public event EventHandler URLChanged;
+		
+		private void OnURLChanged()
+		{
+			EventHandler handler = URLChanged;
+			handler?.Invoke(this, null);
+		}
+
 		private string currentURL = "JVD";
 		public string CurrentURL
 		{
@@ -21,6 +29,7 @@ namespace PhotoHelper.ViewModels
 				{
 					currentURL = value;
 					RaisePropertyChanged("CurrentURL");
+					OnURLChanged();
 				}
 			}
 		}

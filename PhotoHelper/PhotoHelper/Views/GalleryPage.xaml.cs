@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using PhotoHelper.IoC;
+using PhotoHelper.Models;
 using PhotoHelper.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,24 @@ namespace PhotoHelper.Views
 		{
 			InitializeComponent ();
 			BindingContext = AppContainer.Container.Resolve<GalleryViewModel>();
+			PageListView.ItemSelected += PageListView_ItemSelected;
 
 			BackBtn.Clicked += BackBtn_Clicked;
+		}
+
+		private void PageListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			if (((ListView)sender).SelectedItem == null)
+			{
+				return;
+			}
+
+			PageModel selectedPage = (PageModel)e.SelectedItem;
+
+			// set the WebView on the MainPage to the URL and go back
+			AppContainer.Container.Resolve<MainViewModel>().CurrentURL = selectedPage.PageURL;
+			((ListView)sender).SelectedItem = null;
+			Navigation.PopModalAsync();
 		}
 
 		protected override void OnAppearing()

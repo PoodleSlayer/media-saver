@@ -1,5 +1,7 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using Autofac;
+using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.IoC;
+using PhotoHelper.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +42,7 @@ namespace PhotoHelper.UWP.IoC
 			}
 		}
 
-		public async Task<bool> DownloadFile(string downloadURL)
+		public async Task<bool> DownloadFile(string downloadURL, string filenameToUse)
 		{
 			if (String.IsNullOrEmpty(SaveLocation))
 			{
@@ -56,7 +58,8 @@ namespace PhotoHelper.UWP.IoC
 
 
 				StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(SaveLocation);
-				StorageFile destinationFile = await folder.CreateFileAsync("test123.jpg", CreationCollisionOption.GenerateUniqueName);
+				
+				StorageFile destinationFile = await folder.CreateFileAsync(filenameToUse + ".jpg", CreationCollisionOption.GenerateUniqueName);
 
 				using (var filestream = await destinationFile.OpenAsync(FileAccessMode.ReadWrite))
 				{

@@ -18,7 +18,7 @@ namespace PhotoHelper.Droid.IoC
 
 		}
 
-		public async Task<bool> DownloadFile(string path)
+		public async Task<bool> DownloadFile(string downloadURL, string filenameToUse)
 		{
 			return true;
 		}

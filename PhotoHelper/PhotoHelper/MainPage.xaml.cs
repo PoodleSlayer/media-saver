@@ -14,6 +14,7 @@ using PhotoHelper.IoC;
 using Autofac;
 using PhotoHelper.ViewModels;
 using PhotoHelper.Utility;
+using PhotoHelper.Models;
 
 namespace PhotoHelper
 {
@@ -24,6 +25,7 @@ namespace PhotoHelper
 		private SettingsPage settingsPage;
 		private SavePage savePage;
 		private IFileService fileHelper;
+		private string currentURL;
 
 		public MainPage()
 		{
@@ -41,6 +43,8 @@ namespace PhotoHelper
 
 			webby.Navigated += Webby_Navigated;
 
+			ViewModel.URLChanged += ViewModel_URLChanged;
+
 			// load the Settings and any other stuff we may need
 			Settings.LoadSettings();
 
@@ -51,6 +55,16 @@ namespace PhotoHelper
 			savePage = new SavePage();
 		}
 
+		private void ViewModel_URLChanged(object sender, EventArgs e)
+		{
+			// when app is first loaded the WebView will navigate once and the currentURL will be null,
+			// so just ignore that.
+			if (ViewModel.CurrentURL != currentURL && !String.IsNullOrEmpty(currentURL))
+			{
+				webby.Source = ViewModel.CurrentURL;
+			}
+		}
+
 		private void URLBtn_Clicked(object sender, EventArgs e)
 		{
 			LoadNewURL(URLEntry.Text);
@@ -58,7 +72,14 @@ namespace PhotoHelper
 
 		private void Webby_Navigated(object sender, WebNavigatedEventArgs e)
 		{
+			// don't care if they navigate to a specific image, so don't store these
+			if (e.Url.Contains(@"instagram.com/p/"))
+			{
+				return;
+			}
+
 			ViewModel.CurrentURL = e.Url;
+			currentURL = e.Url;
 		}
 
 		private void SaveBtn_Clicked(object sender, EventArgs e)
@@ -161,14 +182,39 @@ namespace PhotoHelper
 
 		private async Task<bool> DownloadURL(string downloadURL)
 		{
-			if (String.IsNullOrEmpty(downloadURL))
+			if (String.IsNullOrEmpty(downloadURL) || String.IsNullOrEmpty(currentURL))
 			{
 				return false;
 			}
 
+
+			var pageCollection = App.Database.GetCollection<PageModel>(PageModel.CollectionName);
+			PageModel selectedPage = pageCollection.FindOne(x => x.PageURL == currentURL);
+
+			string filenameToUse = "";
+			if (selectedPage != null && !String.IsNullOrEmpty(selectedPage.PageFileName))
+			{
+				filenameToUse = selectedPage.PageFileName;
+			}
+			else
+			{
+				//filenameToUse = "test_img";
+				var urlIndex = currentURL.IndexOf(@".com/");
+				var urlSubString = currentURL.Substring(urlIndex + 5);  // the ".com/" above is 5 chars
+				urlSubString = urlSubString.Replace(@"/", "");
+
+				if (!String.IsNullOrEmpty(urlSubString))
+				{
+					filenameToUse = urlSubString;
+				}
+				else
+				{
+					filenameToUse = "downloaded_img";
+				}
+			}
 			// async download media from the URL. should be an image or a video.
 			// save in the file path specified by the user in Settings.
-			await fileHelper.DownloadFile(downloadURL);
+			await fileHelper.DownloadFile(downloadURL, filenameToUse);
 
 			return true;
 		}
