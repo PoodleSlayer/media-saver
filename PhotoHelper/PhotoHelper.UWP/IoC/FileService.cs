@@ -42,6 +42,18 @@ namespace PhotoHelper.UWP.IoC
 			}
 		}
 
+		public List<string> GetDirectories()
+		{
+			// UWP doesn't use this, just return a new empty list
+			return new List<string>();
+		}
+
+		public List<string> GetDirectories(string filepath)
+		{
+			// UWP doesn't use this, just return a new empty list
+			return new List<string>();
+		}
+
 		public async Task<bool> DownloadFile(string downloadURL, string filenameToUse)
 		{
 			if (String.IsNullOrEmpty(SaveLocation))

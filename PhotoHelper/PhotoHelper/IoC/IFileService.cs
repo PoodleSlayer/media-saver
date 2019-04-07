@@ -10,6 +10,8 @@ namespace PhotoHelper.IoC
 		string SaveLocation { get; set; }
 		string GetAppData();
 		void ChooseLocation();
+		List<string> GetDirectories();
+		List<string> GetDirectories(string filepath);
 		Task<bool> DownloadFile(string downloadURL, string filenameToUse);
     }
 }
