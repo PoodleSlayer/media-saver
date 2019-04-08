@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Android;
 using Android.App;
@@ -40,7 +41,7 @@ namespace PhotoHelper.Droid.IoC
 		public List<string> GetDirectories(string filepath)
 		{
 			List<string> directoryList = new List<string>();
-			var dir = new DirectoryInfo(Android.OS.Environment.ExternalStorageDirectory.Path);
+			var dir = new DirectoryInfo(filepath);
 			try
 			{
 				foreach (var item in dir.GetFileSystemInfos())
@@ -57,6 +58,37 @@ namespace PhotoHelper.Droid.IoC
 
 		public async Task<bool> DownloadFile(string downloadURL, string filenameToUse)
 		{
+			var webClient = new WebClient();
+			webClient.DownloadDataCompleted += (s, e) =>
+			{
+				var bytes = e.Result; // gets downloaded data
+
+				int count = 1;
+				// need to figure out extension from the downloadURL for cases where the file is
+				// and mp4 or something other than jpg
+				string filepath = Path.Combine(SaveLocation, filenameToUse + count + ".jpg");
+
+				// this doesn't seem GREAT...
+				while (File.Exists(filepath))
+				{
+					count++;
+					filepath = Path.Combine(SaveLocation, filenameToUse + count + ".jpg");
+				}
+
+				File.WriteAllBytes(filepath, bytes);
+			};
+			var url = new Uri(downloadURL);
+
+			try
+			{
+				Task tasky = webClient.DownloadDataTaskAsync(url);
+				await tasky;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.Message);
+			}
+
 			return true;
 		}
 	}

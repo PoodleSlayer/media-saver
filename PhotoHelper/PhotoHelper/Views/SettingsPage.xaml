@@ -35,7 +35,7 @@
 				   VerticalOptions="End"
 				   Grid.Row="1"
 				   Grid.Column="0" />
-			<Label Text="{Binding SaveLocation}"
+			<Label Text="{Binding FolderText}"
 				   VerticalOptions="StartAndExpand"
 				   BackgroundColor="LightGray"
 				   x:Name="DestFolderLbl"

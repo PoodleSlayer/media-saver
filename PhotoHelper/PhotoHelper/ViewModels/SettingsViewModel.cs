@@ -23,16 +23,32 @@ namespace PhotoHelper.ViewModels
 			}
 		}
 
+		private string folderText;
+		public string FolderText
+		{
+			get => folderText;
+			set
+			{
+				folderText = value;
+				RaisePropertyChanged("FolderText");
+			}
+		}
+
 		public void DidAppear()
 		{
 			Messenger.Default.Register<NotificationMessage>(this, UpdateFolderLabel);
 
-			SaveLocation = Settings.SaveLocation ?? "Please choose a folder...";
+			FolderText = SaveLocation ?? "Please choose a folder...";
 		}
 
 		public void DidDisappear()
 		{
 			Messenger.Default.Unregister<NotificationMessage>(this, UpdateFolderLabel);
+
+			if (String.IsNullOrEmpty(Settings.SaveLocation))
+			{
+				SaveLocation = null;
+			}
 		}
 
 		private void UpdateFolderLabel(NotificationMessage msg)

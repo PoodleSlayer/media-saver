@@ -31,12 +31,18 @@ namespace PhotoHelper.Views
 
 			fileHelper = AppContainer.Container.Resolve<IFileService>();
 			fileBrowserPage = new FileBrowserPage();
+
+			if (!String.IsNullOrEmpty(Settings.SaveLocation))
+			{
+				ViewModel.SaveLocation = Settings.SaveLocation;
+			}
 		}
 
 		private void SaveBtn_Clicked(object sender, EventArgs e)
 		{
 			Settings.SaveLocation = fileHelper.SaveLocation;
 			Settings.SaveSettings();
+			Navigation.PopModalAsync();
 		}
 
 		protected override void OnAppearing()
@@ -74,6 +80,7 @@ namespace PhotoHelper.Views
 
 		private void BackBtn_Clicked(object sender, EventArgs e)
 		{
+			ViewModel.SaveLocation = Settings.SaveLocation;
 			Navigation.PopModalAsync();
 		}
 
