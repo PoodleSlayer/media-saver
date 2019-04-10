@@ -68,6 +68,17 @@ namespace PhotoHelper
 		private void URLBtn_Clicked(object sender, EventArgs e)
 		{
 			LoadNewURL(URLEntry.Text);
+
+			// strip the URL down to just the username so it looks nicer if a user 
+			// pastes a URL into the app
+			string tempURL = URLEntry.Text;
+			if (tempURL.Contains(@"instagram.com"))
+			{
+				var URLParts = tempURL.Split(new string[] { ".com/" }, StringSplitOptions.None);
+				tempURL = URLParts[1]; // should be everything after the .com/
+				URLParts = tempURL.Split('/');
+				URLEntry.Text = URLParts[0];
+			}
 		}
 
 		private void Webby_Navigated(object sender, WebNavigatedEventArgs e)
@@ -78,8 +89,8 @@ namespace PhotoHelper
 				return;
 			}
 
-			ViewModel.CurrentURL = e.Url;
 			currentURL = e.Url;
+			ViewModel.CurrentURL = e.Url;
 		}
 
 		private void SaveBtn_Clicked(object sender, EventArgs e)

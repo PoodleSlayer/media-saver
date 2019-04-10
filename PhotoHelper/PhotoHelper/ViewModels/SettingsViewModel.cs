@@ -53,7 +53,7 @@ namespace PhotoHelper.ViewModels
 
 		private void UpdateFolderLabel(NotificationMessage msg)
 		{
-			SaveLocation = msg.Notification;
+			FolderText = SaveLocation = msg.Notification;
 		}
 	}
 }
