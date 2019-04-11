@@ -33,7 +33,7 @@
 					  Grid.ColumnSpan="3" >
 				<ListView.ItemTemplate>
 					<DataTemplate>
-						<ViewCell>
+						<ViewCell x:Name="PageListItem">
 							<StackLayout Orientation="Horizontal">
 								<Label Text="{Binding PageName}"
 									   FontAttributes="Bold"
@@ -41,6 +41,9 @@
 									   HorizontalOptions="StartAndExpand"
 									   Margin="15,10,15,10"/>
 								<Button Text="Remove"
+										BindingContext="{Binding Source={x:Reference PageListView}, Path=BindingContext}"
+										Command="{Binding RemoveItemCommand}"
+										CommandParameter="{Binding Source={x:Reference PageListItem}, Path=BindingContext}"
 										HorizontalOptions="End" />
 							</StackLayout>
 						</ViewCell>

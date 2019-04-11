@@ -4,6 +4,7 @@ using PhotoHelper.IoC;
 using PhotoHelper.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,10 +69,16 @@ namespace PhotoHelper.UWP.IoC
 				HttpClient client = new HttpClient();
 				HttpResponseMessage result = await client.GetAsync(new Uri(downloadURL));
 
-
 				StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(SaveLocation);
-				
-				StorageFile destinationFile = await folder.CreateFileAsync(filenameToUse + ".jpg", CreationCollisionOption.GenerateUniqueName);
+
+				// generate the first available filename
+				int count = 1;
+				while (await folder.TryGetItemAsync(filenameToUse + count + ".jpg") != null)
+				{
+					count++;
+				}
+
+				StorageFile destinationFile = await folder.CreateFileAsync(filenameToUse + count + ".jpg", CreationCollisionOption.GenerateUniqueName);
 
 				using (var filestream = await destinationFile.OpenAsync(FileAccessMode.ReadWrite))
 				{

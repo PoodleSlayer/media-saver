@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.IoC;
 using PhotoHelper.Models;
 using PhotoHelper.ViewModels;
@@ -44,12 +45,26 @@ namespace PhotoHelper.Views
 		{
 			base.OnAppearing();
 			ViewModel.DidAppear();
+
+			Messenger.Default.Register<PageModel>(this, PromptToRemoveItem);
+		}
+
+		private async void PromptToRemoveItem(PageModel item)
+		{
+			bool answer = await DisplayAlert("Remove Item?", "Do you want to remove \"" + item.PageName + "\"?", "Sure", "Wait no");
+			if (answer)
+			{
+				// remove the item
+				ViewModel.RemoveItemFromDb(item);
+			}
 		}
 
 		protected override void OnDisappearing()
 		{
 			base.OnDisappearing();
 			ViewModel.DidDisappear();
+
+			Messenger.Default.Unregister<PageModel>(this, PromptToRemoveItem);
 		}
 
 		private void BackBtn_Clicked(object sender, EventArgs e)

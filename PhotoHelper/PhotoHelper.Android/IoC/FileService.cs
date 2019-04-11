@@ -68,6 +68,7 @@ namespace PhotoHelper.Droid.IoC
 				// and mp4 or something other than jpg
 				string filepath = Path.Combine(SaveLocation, filenameToUse + count + ".jpg");
 
+				// figure out the first available filename
 				// this doesn't seem GREAT...
 				while (File.Exists(filepath))
 				{
