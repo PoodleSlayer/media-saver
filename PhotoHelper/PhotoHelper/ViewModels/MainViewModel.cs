@@ -33,5 +33,20 @@ namespace PhotoHelper.ViewModels
 				}
 			}
 		}
-    }
+
+		private int buttonFontSize = 16;
+		public int ButtonFontSize
+		{
+			get => buttonFontSize;
+			set
+			{
+				if (buttonFontSize != value)
+				{
+					buttonFontSize = value;
+					RaisePropertyChanged("ButtonFontSize");
+				}
+			}
+		}
+
+	}
 }

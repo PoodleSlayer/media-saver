@@ -38,7 +38,10 @@
 								<Label Text="{Binding PageName}"
 									   FontAttributes="Bold"
 									   FontSize="Large"
+									   HorizontalOptions="StartAndExpand"
 									   Margin="15,10,15,10"/>
+								<Button Text="Remove"
+										HorizontalOptions="End" />
 							</StackLayout>
 						</ViewCell>
 					</DataTemplate>

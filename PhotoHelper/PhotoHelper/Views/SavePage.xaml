@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PhotoHelper.Views.SavePage">
-    <ContentPage.Content>
+	<ContentPage.Content>
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="1*" />
@@ -10,17 +10,9 @@
 				<ColumnDefinition Width="1*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="2*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
 				<RowDefinition Height="1*" />
 				<RowDefinition Height="5*" />
+				<RowDefinition Height="1*" />
 			</Grid.RowDefinitions>
 			<Button Text="Back"
 					x:Name="BackBtn"
@@ -33,64 +25,46 @@
 				   Grid.Column="0"
 				   Grid.ColumnSpan="2"
 				   Grid.Row="0" />
-			<Label Text="Page URL:"
-				   FontAttributes="Bold"
-				   VerticalOptions="End"
-				   Margin="15,0,0,0"
-				   Grid.Column="0"
-				   Grid.Row="1" 
-				   Grid.ColumnSpan="3" />
-			<Label Text="{Binding PageURL}"
-				   VerticalOptions="Start"
-				   Margin="15,0,15,0"
-				   Grid.Column="0"
-				   Grid.Row="2"
-				   Grid.ColumnSpan="3" />
-			<Label Text="Page Name:"
-				   FontAttributes="Bold"
-				   VerticalOptions="End"
-				   Margin="15,0,0,0"
-				   Grid.Column="0"
-				   Grid.Row="3" 
-				   Grid.ColumnSpan="3" />
-			<Entry Placeholder="Save page as..."
-				   Text="{Binding PageName}"
-				   VerticalOptions="Start"
-				   Margin="15,0,15,0"
-				   Grid.Column="0"
-				   Grid.Row="4" 
-				   Grid.ColumnSpan="3" />
-			<Label Text="Load as default page?"
-				   FontAttributes="Bold"
-				   VerticalOptions="End"
-				   Margin="15,0,0,0"
-				   Grid.Column="0"
-				   Grid.Row="5" 
-				   Grid.ColumnSpan="3" />
-			<Switch x:Name="DefaultSwitch"
-					IsToggled="{Binding DefaultPage}"
-					VerticalOptions="Start"
-					Margin="15,0,0,0"
-					Grid.Column="0"
-					Grid.Row="6" />
-			<Label Text="File Name for Media:"
-				   FontAttributes="Bold"
-				   VerticalOptions="End"
-				   Margin="15,0,0,0"
-				   Grid.Column="0"
-				   Grid.Row="7" 
-				   Grid.ColumnSpan="3" />
-			<Entry Placeholder="Save media as..."
-				   Text="{Binding PageFileName}"
-				   VerticalOptions="Start"
-				   Margin="15,0,15,0"
-				   Grid.Column="0"
-				   Grid.Row="8"
-				   Grid.ColumnSpan="3" />
+			<ScrollView Grid.Column="0"
+						Grid.Row="1"
+						Grid.ColumnSpan="3">
+				<StackLayout Orientation="Vertical">
+					<Label Text="Page URL:"
+						   FontAttributes="Bold"
+						   VerticalOptions="End"
+						   Margin="15,15,15,0" />
+					<Label Text="{Binding PageURL}"
+						   Margin="15,0,15,0" />
+					<Label Text="Page Name:"
+						   FontAttributes="Bold"
+						   VerticalOptions="End"
+						   Margin="15,15,15,0" />
+					<Entry Placeholder="Save page as..."
+						   FontSize="Small"
+						   Text="{Binding PageName}"
+						   Margin="15,0,15,0" />
+					<Label Text="Load as default page?"
+						   FontAttributes="Bold"
+						   VerticalOptions="End"
+						   Margin="15,15,15,0" />
+					<Switch x:Name="DefaultSwitch"
+							HorizontalOptions="Start"
+							IsToggled="{Binding DefaultPage}"
+							Margin="15,0,0,0" />
+					<Label Text="File Name for Media:"
+						   FontAttributes="Bold"
+						   VerticalOptions="End"
+						   Margin="15,15,15,0" />
+					<Entry Placeholder="Save media as..."
+						   FontSize="Small"
+						   Text="{Binding PageFileName}"
+						   Margin="15,0,15,0" />
+				</StackLayout>
+			</ScrollView>
 			<Button Text="Save Page"
 					Command="{Binding SaveCommand}}"
 					Grid.Column="1"
-					Grid.Row="9" />
+					Grid.Row="2" />
 		</Grid>
     </ContentPage.Content>
 </ContentPage>

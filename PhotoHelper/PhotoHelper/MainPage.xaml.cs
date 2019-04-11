@@ -26,6 +26,8 @@ namespace PhotoHelper
 		private SavePage savePage;
 		private IFileService fileHelper;
 		private string currentURL;
+		private double screenHeight;
+		private double screenWidth;
 
 		public MainPage()
 		{
@@ -42,8 +44,8 @@ namespace PhotoHelper
 			URLBtn.Clicked += URLBtn_Clicked;
 
 			webby.Navigated += Webby_Navigated;
-
 			ViewModel.URLChanged += ViewModel_URLChanged;
+			SizeChanged += MainPage_SizeChanged;
 
 			// load the Settings and any other stuff we may need
 			Settings.LoadSettings();
@@ -53,6 +55,38 @@ namespace PhotoHelper
 			galleryPage = new GalleryPage();
 			settingsPage = new SettingsPage();
 			savePage = new SavePage();
+		}
+
+		private void MainPage_SizeChanged(object sender, EventArgs e)
+		{
+			// on orientation change? and window resize in UWP?
+			screenHeight = this.Height;
+			screenWidth = this.Width;
+
+			if (screenHeight > screenWidth)
+			{
+				// orientation is Portrait
+				if (screenHeight < 600)
+				{
+					ViewModel.ButtonFontSize = 12;
+				}
+				else
+				{
+					ViewModel.ButtonFontSize = 16;
+				}
+			}
+			else
+			{
+				// orientation is Landscape
+				if (screenWidth < 500)
+				{
+					ViewModel.ButtonFontSize = 10;
+				}
+				else
+				{
+					ViewModel.ButtonFontSize = 14;
+				}
+			}
 		}
 
 		private void ViewModel_URLChanged(object sender, EventArgs e)
@@ -79,6 +113,14 @@ namespace PhotoHelper
 				URLParts = tempURL.Split('/');
 				URLEntry.Text = URLParts[0];
 			}
+		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+
+			screenHeight = this.Height;
+			screenWidth = this.Width;
 		}
 
 		private void Webby_Navigated(object sender, WebNavigatedEventArgs e)
