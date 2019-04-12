@@ -11,7 +11,8 @@ namespace PhotoHelper.iOS.IoC
 
 		public string GetAppData()
 		{
-			return "";
+			string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+			return appDataPath;
 		}
 
 		public void ChooseLocation()

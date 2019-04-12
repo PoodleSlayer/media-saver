@@ -1,7 +1,8 @@
 ﻿using System;
-
+using System.Diagnostics;
 using Foundation;
 using PhotoHelper.iOS.IoC;
+using Photos;
 using UIKit;
 
 namespace PhotoHelper.iOS
@@ -24,7 +25,33 @@ namespace PhotoHelper.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(new SetupiOS()));
 
-            return base.FinishedLaunching(app, options);
-        }
+			CheckAuths();  // this sigabrts for some reason :c
+
+			return base.FinishedLaunching(app, options);
+		}
+
+		private void CheckAuths()
+		{
+			PHPhotoLibrary.RequestAuthorization(status =>
+			{
+				switch (status)
+				{
+					case PHAuthorizationStatus.Authorized:
+					// user is permitted!
+						Debug.WriteLine("user has access to Photos");
+						break;
+					case PHAuthorizationStatus.Denied:
+						// user is NOT permitted :c
+						Debug.WriteLine("user DOES NOT have access to Photos");
+						break;
+					case PHAuthorizationStatus.Restricted:
+						// uhhhh
+						Debug.WriteLine("user has restricted access to Photos?");
+						break;
+					default:
+						break;
+				}
+			});
+		}
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Autofac;
 using LiteDB;
 using PhotoHelper.IoC;
@@ -41,7 +42,7 @@ namespace PhotoHelper
 			{
 				if (database == null)
 				{
-					database = new LiteDatabase(AppContainer.Container.Resolve<IFileService>().GetAppData() + @"\local.db");
+					database = new LiteDatabase(Path.Combine(AppContainer.Container.Resolve<IFileService>().GetAppData(), @"\local.db"));
 				}
 				return database;
 			}
