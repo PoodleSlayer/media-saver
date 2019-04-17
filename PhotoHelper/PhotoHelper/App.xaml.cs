@@ -42,7 +42,7 @@ namespace PhotoHelper
 			{
 				if (database == null)
 				{
-					database = new LiteDatabase(Path.Combine(AppContainer.Container.Resolve<IFileService>().GetAppData(), @"\local.db"));
+					database = new LiteDatabase(Path.Combine(AppContainer.Container.Resolve<IFileService>().GetAppData(), @"local.db"));
 				}
 				return database;
 			}

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.IoC;
+using PhotoHelper.Utility.Messages;
 using PhotoHelper.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace PhotoHelper.UWP.IoC
 				SaveLocation = folder.Path;
 
 				// not ideal but nicer than hooking up some events across projects?
-				Messenger.Default.Send(new NotificationMessage(SaveLocation));
+				Messenger.Default.Send(new SettingsFolderMessage(SaveLocation));
 			}
 		}
 

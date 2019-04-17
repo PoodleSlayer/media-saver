@@ -23,7 +23,7 @@ namespace PhotoHelper.Droid.IoC
 
 		public string GetAppData()
 		{
-			return System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+			return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 		}
 
 		public void ChooseLocation()

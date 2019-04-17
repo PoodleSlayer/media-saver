@@ -30,6 +30,10 @@ namespace PhotoHelper.iOS
 			return base.FinishedLaunching(app, options);
 		}
 
+		/// <summary>
+		/// Use this method to check for any necessary user permissions as soon as the app
+		/// is first run. Might need to make async? Not sure about performance here.
+		/// </summary>
 		private void CheckAuths()
 		{
 			PHPhotoLibrary.RequestAuthorization(status =>

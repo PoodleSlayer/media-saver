@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.Utility;
+using PhotoHelper.Utility.Messages;
 using System;
 
 namespace PhotoHelper.ViewModels
@@ -36,14 +37,14 @@ namespace PhotoHelper.ViewModels
 
 		public void DidAppear()
 		{
-			Messenger.Default.Register<NotificationMessage>(this, UpdateFolderLabel);
+			Messenger.Default.Register<SettingsFolderMessage>(this, UpdateFolderLabel);
 
 			FolderText = SaveLocation ?? "Please choose a folder...";
 		}
 
 		public void DidDisappear()
 		{
-			Messenger.Default.Unregister<NotificationMessage>(this, UpdateFolderLabel);
+			Messenger.Default.Unregister<SettingsFolderMessage>(this, UpdateFolderLabel);
 
 			if (String.IsNullOrEmpty(Settings.SaveLocation))
 			{
@@ -51,9 +52,9 @@ namespace PhotoHelper.ViewModels
 			}
 		}
 
-		private void UpdateFolderLabel(NotificationMessage msg)
+		private void UpdateFolderLabel(SettingsFolderMessage msg)
 		{
-			FolderText = SaveLocation = msg.Notification;
+			FolderText = SaveLocation = msg.SelectedFolder;
 		}
 	}
 }

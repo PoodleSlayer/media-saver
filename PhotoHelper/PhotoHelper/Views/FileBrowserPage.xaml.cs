@@ -32,6 +32,12 @@ namespace PhotoHelper.Views
 			OpenBtn.Clicked += OpenBtn_Clicked;
 			SelectBtn.Clicked += SelectBtn_Clicked;
 			FileListView.ItemSelected += FileListView_ItemSelected;
+
+			// hide the Open Folder button on iOS since it's just a flat list of Photo Albums
+			if (Device.RuntimePlatform == Device.iOS)
+			{
+				OpenBtn.IsVisible = false;
+			}
 		}
 
 		private void SelectBtn_Clicked(object sender, EventArgs e)
@@ -43,7 +49,7 @@ namespace PhotoHelper.Views
 			}
 
 			AppContainer.Container.Resolve<SettingsViewModel>().SaveLocation = (string)FileListView.SelectedItem;
-			AppContainer.Container.Resolve<IFileService>().SaveLocation = (string)FileListView.SelectedItem;
+			fileHelper.SaveLocation = (string)FileListView.SelectedItem;
 
 			Navigation.PopModalAsync();
 		}
