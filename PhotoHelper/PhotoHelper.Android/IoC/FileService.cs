@@ -64,16 +64,15 @@ namespace PhotoHelper.Droid.IoC
 				var bytes = e.Result; // gets downloaded data
 
 				int count = 1;
-				// need to figure out extension from the downloadURL for cases where the file is
-				// and mp4 or something other than jpg
-				string filepath = Path.Combine(SaveLocation, filenameToUse + count + ".jpg");
+				string fileType = downloadURL.Contains(@".mp4?") ? ".mp4" : ".jpg";
+				string filepath = Path.Combine(SaveLocation, filenameToUse + count + fileType);
 
 				// figure out the first available filename
 				// this doesn't seem GREAT...
 				while (File.Exists(filepath))
 				{
 					count++;
-					filepath = Path.Combine(SaveLocation, filenameToUse + count + ".jpg");
+					filepath = Path.Combine(SaveLocation, filenameToUse + count + fileType);
 				}
 
 				File.WriteAllBytes(filepath, bytes);

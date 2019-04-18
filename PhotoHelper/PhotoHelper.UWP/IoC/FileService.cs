@@ -74,12 +74,13 @@ namespace PhotoHelper.UWP.IoC
 
 				// generate the first available filename
 				int count = 1;
-				while (await folder.TryGetItemAsync(filenameToUse + count + ".jpg") != null)
+				string fileType = downloadURL.Contains(@".mp4?") ? ".mp4" : ".jpg";
+				while (await folder.TryGetItemAsync(filenameToUse + count + fileType) != null)
 				{
 					count++;
 				}
 
-				StorageFile destinationFile = await folder.CreateFileAsync(filenameToUse + count + ".jpg", CreationCollisionOption.GenerateUniqueName);
+				StorageFile destinationFile = await folder.CreateFileAsync(filenameToUse + count + fileType, CreationCollisionOption.GenerateUniqueName);
 
 				using (var filestream = await destinationFile.OpenAsync(FileAccessMode.ReadWrite))
 				{

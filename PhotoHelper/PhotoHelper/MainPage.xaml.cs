@@ -175,9 +175,9 @@ namespace PhotoHelper
 			//*****************************************************************
 
 			string pageUrl = await webby.EvaluateJavaScriptAsync("document.location.href");
-			string imgJson = await GetImgUrl(pageUrl);
+			string urlToDownload = await GetImgUrl(pageUrl);
 
-			await DownloadURL(imgJson);
+			await DownloadURL(urlToDownload);
 		}
 
 		/// <summary>
@@ -207,28 +207,42 @@ namespace PhotoHelper
 				var content = await response.Content.ReadAsStringAsync();
 
 				JObject jsonContent = (JObject)JsonConvert.DeserializeObject(content);
-
-				// check if video
+				
 				if ((bool)jsonContent["graphql"]["shortcode_media"]["is_video"] == true)
 				{
 					// it's a video!
 					string videoURL = jsonContent["graphql"]["shortcode_media"]["video_url"].ToString();
 					return videoURL;
 				}
-
-				// check if gallery
-				if (jsonContent["graphql"]["shortcode_media"].Contains("edge_sidecar_to_children"))
+				else if (jsonContent["graphql"]["shortcode_media"]["edge_sidecar_to_children"] != null)
 				{
-					; // it's a gallery!
+					// it's an album!
+					int albumIndex = 0;
+					if (!String.IsNullOrEmpty(AlbumIndex.Text))
+					{
+						var isNumeric = int.TryParse(AlbumIndex.Text, out int n);
+						if (isNumeric)
+						{
+							albumIndex = n > 0 ? n - 1 : 0; // for normal users we'll say this is 1-indexed
+						}
+						// else it just stays 0
+					}
+					JArray imgSources = (JArray)jsonContent["graphql"]["shortcode_media"]["edge_sidecar_to_children"]["edges"][albumIndex]["node"]["display_resources"];
+					JObject bestImg = (JObject)imgSources.OrderByDescending(x => x["config_width"]).FirstOrDefault();
+
+					return bestImg["src"].ToString();
 				}
+				else
+				{
+					// just a normal image
+					JArray imgSources = (JArray)jsonContent["graphql"]["shortcode_media"]["display_resources"];
+					JObject bestImg = (JObject)imgSources.OrderByDescending(x => x["config_width"]).FirstOrDefault();
 
-				JArray imgSources = (JArray)jsonContent["graphql"]["shortcode_media"]["display_resources"];
-				JObject bestImg = (JObject)imgSources.OrderByDescending(x => x["config_width"]).FirstOrDefault();
+					// for image galleries, need to look for property "edge_sidecar_to_children" in "shortcode_media". not
+					// sure how to determine WHICH image in the gallery is being viewed though...
 
-				// for image galleries, need to look for property "edge_sidecar_to_children" in "shortcode_media". not
-				// sure how to determine WHICH image in the gallery is being viewed though...
-
-				return bestImg["src"].ToString();
+					return bestImg["src"].ToString();
+				}
 			}
 			return "";
 		}
