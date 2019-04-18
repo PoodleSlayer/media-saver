@@ -73,6 +73,18 @@ namespace PhotoHelper.ViewModels
 			};
 
 			var pageCollection = App.Database.GetCollection<PageModel>(PageModel.CollectionName);
+			if (DefaultPage == true)
+			{
+				// only allow one DefaultPage so clear any that are currently set in the db
+				var defaultPages = pageCollection.Find(x => x.DefaultPage == true);
+				foreach (PageModel dPage in defaultPages)
+				{
+					dPage.DefaultPage = false;
+					// ideally i would bulk upsert but in theory there should only ever be one
+					// of these so this is okay for now
+					pageCollection.Upsert(dPage.PageURL, dPage);
+				}
+			}
 			pageCollection.Upsert(PageURL, newPage);
 		}
 

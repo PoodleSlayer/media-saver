@@ -16,7 +16,7 @@ namespace PhotoHelper.ViewModels
 			handler?.Invoke(this, null);
 		}
 
-		private string currentURL = "JVD";
+		private string currentURL;
 		public string CurrentURL
 		{
 			get

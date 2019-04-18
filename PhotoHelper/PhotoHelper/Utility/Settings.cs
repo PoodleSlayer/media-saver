@@ -5,12 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LiteDB;
+using System.Linq;
 
 namespace PhotoHelper.Utility
 {
     public static class Settings
     {
 		public static string SaveLocation { get; set; }
+		private static string defaultPageURL;
+		public static string DefaultPageURL
+		{
+			get => defaultPageURL;
+		}
 
 		private static SettingsModel settings { get; set; }
 		private static LiteCollection<SettingsModel> settingsCollection { get; set; }
@@ -34,6 +40,14 @@ namespace PhotoHelper.Utility
 				settings = settingsFile;
 				SaveLocation = settings.SaveLocation;  // this is the public property
 				AppContainer.Container.Resolve<IFileService>().SaveLocation = settings.SaveLocation;
+			}
+
+			// look up the default Page, if any
+			var pageCollection = App.Database.GetCollection<PageModel>(PageModel.CollectionName);
+			var defaultPages = pageCollection.Find(x => x.DefaultPage == true).ToList();
+			if (defaultPages.Count > 0)
+			{
+				defaultPageURL = defaultPages[0].PageURL;
 			}
 		}
 

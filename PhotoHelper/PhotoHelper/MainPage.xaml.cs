@@ -49,12 +49,25 @@ namespace PhotoHelper
 
 			// load the Settings and any other stuff we may need
 			Settings.LoadSettings();
+			if (!String.IsNullOrEmpty(Settings.DefaultPageURL))
+			{
+				// kinda goofy but this intercepts the webview's initial URL
+				// otherwise we'd have to deal with navigating twice when the
+				// ViewModel's URL changes which looks weird
+				webby.Source = Settings.DefaultPageURL;
+			}
 
 			// initialize all pages since there's only a few
 			client = new HttpClient();
 			galleryPage = new GalleryPage();
 			settingsPage = new SettingsPage();
 			savePage = new SavePage();
+
+			// platform specific layout, if needed
+			if (Device.RuntimePlatform == Device.Android)
+			{
+				AlbumIndexStackLayout.Margin = new Thickness(0, -15, 0, 0);
+			}
 		}
 
 		private void MainPage_SizeChanged(object sender, EventArgs e)

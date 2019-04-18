@@ -41,6 +41,7 @@
 						   Margin="15,15,15,0" />
 					<Entry Placeholder="Save page as..."
 						   FontSize="Small"
+						   IsSpellCheckEnabled="False"
 						   Text="{Binding PageName}"
 						   Margin="15,0,15,0" />
 					<Label Text="Load as default page?"
@@ -57,6 +58,7 @@
 						   Margin="15,15,15,0" />
 					<Entry Placeholder="Save media as..."
 						   FontSize="Small"
+						   IsSpellCheckEnabled="False"
 						   Text="{Binding PageFileName}"
 						   Margin="15,0,15,0" />
 				</StackLayout>

@@ -63,7 +63,8 @@
 				   FontSize="Small"
 				   IsSpellCheckEnabled="False"
 				   Placeholder="Page to load (name or URL, e.g. @cat)" />
-			<StackLayout Orientation="Horizontal"
+			<StackLayout x:Name="AlbumIndexStackLayout"
+						 Orientation="Horizontal"
 						 HorizontalOptions="CenterAndExpand">
 				<Label Text="Item in Album to Download:"
 					   HorizontalOptions="Start"
@@ -81,7 +82,7 @@
 				Grid.Column="3"
 				Grid.Row="2" />
 		<WebView x:Name="webby"
-				 Source="https://www.instagram.com/jennifervandamsel/"
+				 Source="https://www.instagram.com/"
 				 Grid.Column="0"
 				 Grid.Row="3"
 				 Grid.ColumnSpan="4" />
