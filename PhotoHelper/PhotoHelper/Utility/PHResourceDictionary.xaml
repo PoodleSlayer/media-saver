@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PhotoHelper.Utility.PHResourceDictionary">
+	
+	<!-- Font Sizes -->
+	<OnPlatform x:Key="SmallestFontSize"
+				x:TypeArguments="x:Double" >
+		<On Platform="Android">10.0</On>
+		<On Platform="iOS">12.0</On>
+		<On Platform="UWP">14.0</On>
+	</OnPlatform>
+	<OnPlatform x:Key="SmallFontSize"
+				x:TypeArguments="x:Double" >
+		<On Platform="Android">12.0</On>
+		<On Platform="iOS">14.0</On>
+		<On Platform="UWP">16.0</On>
+	</OnPlatform>
+	<OnPlatform x:Key="MediumFontSize"
+				x:TypeArguments="x:Double" >
+		<On Platform="Android">14.0</On>
+		<On Platform="iOS">16.0</On>
+		<On Platform="UWP">20.0</On>
+	</OnPlatform>
+	
+	<!-- Styles -->
+	<Style x:Key="SmallestButtonFont" TargetType="Button">
+		<Setter Property="FontSize" Value="{StaticResource SmallestFontSize}" />
+	</Style>
+	<Style x:Key="SmallButtonFont" TargetType="Button">
+		<Setter Property="FontSize" Value="{StaticResource SmallFontSize}" />
+	</Style>
+	
+</ResourceDictionary>

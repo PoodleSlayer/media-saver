@@ -3,6 +3,7 @@ using System.IO;
 using Autofac;
 using LiteDB;
 using PhotoHelper.IoC;
+using PhotoHelper.Utility;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,6 +17,8 @@ namespace PhotoHelper
 			AppContainer.Container = setup.CreateContainer();
 
 			InitializeComponent();
+
+			//Resources = new PHResourceDictionary();
 
 			MainPage = new MainPage();
 		}
