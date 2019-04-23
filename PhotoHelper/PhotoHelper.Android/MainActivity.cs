@@ -11,11 +11,17 @@ using PhotoHelper.Droid.IoC;
 
 namespace PhotoHelper.Droid
 {
-    [Activity(Label = "PhotoHelper", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "PhotoHelper", Icon = "@mipmap/icon", Theme = "@style/SplashTheme.Splash", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+			// once created, swap back to the main style.
+			// this is a quick and dirty way to handle the splash screen rather
+			// than switching to a whole new activity.
+			base.Window.RequestFeature(Android.Views.WindowFeatures.ActionBar);
+			base.SetTheme(Resource.Style.MainTheme);
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
