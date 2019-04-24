@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:converters="clr-namespace:PhotoHelper.Utility.Converters"
+			 xmlns:controls="clr-namespace:PhotoHelper.Controls"
              x:Class="PhotoHelper.Views.GalleryPage">
     <ContentPage.Content>
 
@@ -23,7 +24,7 @@
 				   Grid.Row="0"
 				   Grid.Column="0"
 				   Grid.ColumnSpan="2" />
-			<Button x:Name="BackBtn"
+			<controls:PHButton x:Name="BackBtn"
 					Text="Back"
 					Grid.Row="0"
 					Grid.Column="2" />

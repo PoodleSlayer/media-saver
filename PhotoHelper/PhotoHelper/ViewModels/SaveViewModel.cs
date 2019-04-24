@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.IoC;
 using PhotoHelper.Models;
+using PhotoHelper.Utility;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +14,7 @@ namespace PhotoHelper.ViewModels
     {
 		private PageModel newPage;
 		public RelayCommand SaveCommand { get; set; }
+		public event EventHandler PageSaved;
 
 		public SaveViewModel()
 		{
@@ -72,6 +75,15 @@ namespace PhotoHelper.ViewModels
 				DefaultPage = DefaultPage
 			};
 
+			if (String.IsNullOrEmpty(PageName))
+			{
+				// need to set this so the Gallery view has labels, also it just makes
+				// sense for the user to at least set this. If they don't specify a 
+				// filename then the app just grabs the page's URL
+				Messenger.Default.Send(new NotificationMessage(MessageHelper.PromptForPageName));
+				return;
+			}
+
 			var pageCollection = App.Database.GetCollection<PageModel>(PageModel.CollectionName);
 			if (DefaultPage == true)
 			{
@@ -86,6 +98,9 @@ namespace PhotoHelper.ViewModels
 				}
 			}
 			pageCollection.Upsert(PageURL, newPage);
+
+			// fire event to let the page know this is done
+			PageSaved?.Invoke(this, null);
 		}
 
 		public string PageName

@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
 using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using PhotoHelper.Droid.IoC;
+using static Android.App.ActivityManager;
 
 namespace PhotoHelper.Droid
 {
@@ -22,7 +24,18 @@ namespace PhotoHelper.Droid
 			base.Window.RequestFeature(Android.Views.WindowFeatures.ActionBar);
 			base.SetTheme(Resource.Style.MainTheme);
 
-            TabLayoutResource = Resource.Layout.Tabbar;
+			// in versions later than Lollipop let's style the TaskDescription a bit
+			// THIS SEEMS REALLY GROSS but supposedly it's actually how you do it?
+			// seems sketchy to look up the app icon like this when the default
+			// taskdescription already has it just fine...
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+			{
+				Bitmap appIcon = BitmapFactory.DecodeResource(Resources, Resource.Mipmap.icon);
+				TaskDescription description = new TaskDescription(ApplicationInfo.LoadLabel(PackageManager), appIcon, Color.ParseColor("#0400FF"));
+				base.SetTaskDescription(description);
+			}
+
+			TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
@@ -32,6 +45,12 @@ namespace PhotoHelper.Droid
 			// additional setup, if needed
 			Task.Run(() => GetFilePermissionsAsync());
         }
+
+		protected override void OnResume()
+		{
+			// in case we need some special handling when the app resumes from background...
+			base.OnResume();
+		}
 
 		/// <summary>
 		/// This method will prompt the user for permission to read/write to external storage.

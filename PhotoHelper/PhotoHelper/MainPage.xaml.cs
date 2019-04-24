@@ -153,9 +153,9 @@ namespace PhotoHelper
 			Navigation.PushModalAsync(savePage);
 		}
 
-		private void GalleryBtn_Clicked(object sender, EventArgs e)
+		private async void GalleryBtn_Clicked(object sender, EventArgs e)
 		{
-			Navigation.PushModalAsync(galleryPage);
+			await Navigation.PushModalAsync(galleryPage);
 		}
 
 		private void SettingsBtn_Clicked(object sender, EventArgs e)
@@ -186,6 +186,13 @@ namespace PhotoHelper
 			//string pleaseWork = await webby.EvaluateJavaScriptAsync(jsHorseCrap);
 			//string pleaseWork2 = await webby.EvaluateJavaScriptAsync("GetThingPlease()");
 			//*****************************************************************
+
+			// d'oh, don't attempt to save if user hasn't specified a location
+			if (String.IsNullOrEmpty(Settings.SaveLocation))
+			{
+				await DisplayAlert("Specify Location", "Please specify a location to save files in the Settings page", "Oops OK Thanks!");
+				return;
+			}
 
 			string pageUrl = await webby.EvaluateJavaScriptAsync("document.location.href");
 			string urlToDownload = await GetImgUrl(pageUrl);
