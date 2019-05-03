@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="IoC\FileService.cs" />
     <Compile Include="IoC\SetupiOS.cs" />
+    <Compile Include="IoC\ToastService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />

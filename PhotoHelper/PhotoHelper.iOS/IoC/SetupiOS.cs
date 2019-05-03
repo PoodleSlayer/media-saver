@@ -11,6 +11,7 @@ namespace PhotoHelper.iOS.IoC
 			base.RegisterDependencies(cb);
 
 			cb.RegisterType<FileService>().As<IFileService>().SingleInstance();
+			cb.RegisterType<ToastService>().As<IToastService>().SingleInstance();
 		}
 	}
 }

@@ -15,6 +15,7 @@ using Autofac;
 using PhotoHelper.ViewModels;
 using PhotoHelper.Utility;
 using PhotoHelper.Models;
+using System.Diagnostics;
 
 namespace PhotoHelper
 {
@@ -136,6 +137,13 @@ namespace PhotoHelper
 			screenWidth = this.Width;
 		}
 
+		protected override bool OnBackButtonPressed()
+		{
+			WebViewGoBack();
+
+			return true;
+		}
+
 		private void Webby_Navigated(object sender, WebNavigatedEventArgs e)
 		{
 			// don't care if they navigate to a specific image, so don't store these
@@ -164,6 +172,11 @@ namespace PhotoHelper
 		}
 
 		private void BackBtn_Clicked(object sender, EventArgs e)
+		{
+			WebViewGoBack();
+		}
+
+		private void WebViewGoBack()
 		{
 			webby.GoBack();
 		}
@@ -221,7 +234,16 @@ namespace PhotoHelper
 		private async Task<string> GetImgUrl(string imgPage)
 		{
 			var uri = new Uri(imgPage + "?__a=1");
-			var response = await client.GetAsync(uri);
+			HttpResponseMessage response = null;
+			try
+			{
+				//var response = await client.GetAsync(uri);
+				response = await client.GetAsync(uri);
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.Message);
+			}
 			if (response.IsSuccessStatusCode)
 			{
 				var content = await response.Content.ReadAsStringAsync();
@@ -301,7 +323,14 @@ namespace PhotoHelper
 			}
 			// async download media from the URL. should be an image or a video.
 			// save in the file path specified by the user in Settings.
+
+			// wrap this in a try/catch
 			await fileHelper.DownloadFile(downloadURL, filenameToUse);
+
+			// not sure if this causes problems running NOT on the UI thread...
+			AppContainer.Container.Resolve<IToastService>().MakeToast("Downloaded!");
+
+			// if download successful, toast or notify the user
 
 			return true;
 		}
