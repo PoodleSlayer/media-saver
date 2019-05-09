@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:controls="clr-namespace:PhotoHelper.Controls"
              x:Class="PhotoHelper.Views.SettingsPage">
-    <ContentPage.Content>
+	<ContentPage.Content>
 
 		<Grid>
 			<Grid.ColumnDefinitions>
@@ -13,12 +13,8 @@
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="1*" />
+				<RowDefinition Height="5*" />
 				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="6*" />
 			</Grid.RowDefinitions>
 			<Label Text="Settings"
 				   HorizontalOptions="Center"
@@ -31,43 +27,26 @@
 					Text="Back"
 					Grid.Row="0"
 					Grid.Column="2" />
-			<Label Text="Save Location:"
-				   FontAttributes="Bold"
-				   VerticalOptions="End"
-				   Grid.Row="1"
-				   Grid.Column="0" />
-			<Label Text="{Binding FolderText}"
-				   VerticalOptions="StartAndExpand"
-				   BackgroundColor="LightGray"
-				   x:Name="DestFolderLbl"
-				   Grid.Row="2"
-				   Grid.Column="0"
-				   Grid.ColumnSpan="3"
-				   Margin="10, 0, 10, 0" />
-			<Button Text="Choose Folder"
-					x:Name="SelectBtn"
-					Grid.Row="3"
-					Grid.Column="0"
-					Grid.ColumnSpan="3" />
+			<ScrollView Grid.Column="0"
+						Grid.ColumnSpan="3"
+						Grid.Row="1" >
+				<StackLayout Orientation="Vertical">
+					<Label Text="Save Location:"
+						   FontAttributes="Bold"
+						   VerticalOptions="Start" />
+					<Label Text="{Binding FolderText}"
+						   BackgroundColor="LightGray"
+						   x:Name="DestFolderLbl"
+						   Margin="10, 0, 10, 0" />
+					<Button Text="Choose Folder"
+							x:Name="SelectBtn" />
+				</StackLayout>
+			</ScrollView>
 			<controls:PHButton Text="Save Settings"
 					x:Name="SaveBtn"
-					Grid.Row="5"
+					Grid.Row="2"
 					Grid.Column="1" />
 		</Grid>
-
-		<!--<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="1*" />
-				<ColumnDefinition Width="1*" />
-				<ColumnDefinition Width="1*" />
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="1*" />
-				<RowDefinition Height="5*" />
-				<RowDefinition Height="1*" />
-			</Grid.RowDefinitions>
-			
-		</Grid>-->
 		
 	</ContentPage.Content>
 </ContentPage>

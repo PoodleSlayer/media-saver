@@ -82,6 +82,12 @@ namespace PhotoHelper.iOS.IoC
 		private void PopulateAlbumCollection()
 		{
 			List<PHAssetCollection> albums = new List<PHAssetCollection>();
+
+			// this appears to be the same as just getting the allAlbums below...
+			//List<PHCollection> topLevelAlbums = new List<PHCollection>();
+			//var allTopLevelAlbums = PHCollection.FetchTopLevelUserCollections(null).Cast<PHCollection>();
+			//topLevelAlbums.AddRange(allTopLevelAlbums);
+
 			var allAlbums = PHAssetCollection.FetchAssetCollections(PHAssetCollectionType.Album, PHAssetCollectionSubtype.Any, null).Cast<PHAssetCollection>();
 			albums.AddRange(allAlbums);
 			var smartAlbums = PHAssetCollection.FetchAssetCollections(PHAssetCollectionType.SmartAlbum, PHAssetCollectionSubtype.Any, null).Cast<PHAssetCollection>();

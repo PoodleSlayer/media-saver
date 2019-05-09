@@ -209,7 +209,7 @@ namespace PhotoHelper
 
 			string pageUrl = await webby.EvaluateJavaScriptAsync("document.location.href");
 			string urlToDownload = await GetImgUrl(pageUrl);
-
+			
 			await DownloadURL(urlToDownload);
 		}
 
@@ -269,7 +269,14 @@ namespace PhotoHelper
 						}
 						// else it just stays 0
 					}
-					JArray imgSources = (JArray)jsonContent["graphql"]["shortcode_media"]["edge_sidecar_to_children"]["edges"][albumIndex]["node"]["display_resources"];
+
+					JArray albumArray = (JArray)jsonContent["graphql"]["shortcode_media"]["edge_sidecar_to_children"]["edges"];
+					if (albumIndex > albumArray.Count - 1 && albumArray.Count != 0)
+					{
+						return "";
+					}
+
+					JArray imgSources = (JArray)albumArray[albumIndex]["node"]["display_resources"];
 					JObject bestImg = (JObject)imgSources.OrderByDescending(x => x["config_width"]).FirstOrDefault();
 
 					return bestImg["src"].ToString();

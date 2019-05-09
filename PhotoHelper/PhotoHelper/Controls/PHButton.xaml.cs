@@ -21,6 +21,11 @@ namespace PhotoHelper.Controls
 				BackgroundColor = Color.FromHex("#2196F3");
 				TextColor = Color.White;
 			}
+			else if (Device.RuntimePlatform == Device.UWP)
+			{
+				BackgroundColor = Color.FromHex("#2196F3");
+				TextColor = Color.White;
+			}
 		}
 	}
 }
