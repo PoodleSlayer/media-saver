@@ -12,11 +12,12 @@ namespace PhotoHelper.Utility
     public static class Settings
     {
 		public static string SaveLocation { get; set; }
-		private static string defaultPageURL;
-		public static string DefaultPageURL
-		{
-			get => defaultPageURL;
-		}
+		public static string DownloadFeedback { get; set; }
+		public static string DefaultPageURL { get; private set; }
+		
+		public static readonly string DownloadNone = "DownloadNone";
+		public static readonly string DownloadToast = "DownloadToast";
+		public static readonly string DownloadNotif = "DownloadNotif";
 
 		private static SettingsModel settings { get; set; }
 		private static LiteCollection<SettingsModel> settingsCollection { get; set; }
@@ -33,12 +34,15 @@ namespace PhotoHelper.Utility
 			{
 				// initialize a new settings file? or just leave null? HMMM
 				settings = new SettingsModel();
+				DownloadFeedback = DownloadNone;
 				SaveSettings();
 			}
 			else
 			{
 				settings = settingsFile;
 				SaveLocation = settings.SaveLocation;  // this is the public property
+				DownloadFeedback = settings.DownloadFeedback;
+
 				AppContainer.Container.Resolve<IFileService>().SaveLocation = settings.SaveLocation;
 			}
 
@@ -47,7 +51,7 @@ namespace PhotoHelper.Utility
 			var defaultPages = pageCollection.Find(x => x.DefaultPage == true).ToList();
 			if (defaultPages.Count > 0)
 			{
-				defaultPageURL = defaultPages[0].PageURL;
+				DefaultPageURL = defaultPages[0].PageURL;
 			}
 		}
 
@@ -64,6 +68,7 @@ namespace PhotoHelper.Utility
 
 			// update values in the private SettingsModel before storing. for now just SaveLocation
 			settings.SaveLocation = SaveLocation;
+			settings.DownloadFeedback = DownloadFeedback;
 			settingsCollection.Upsert(SettingsModel.IdName, settings);
 		}
     }

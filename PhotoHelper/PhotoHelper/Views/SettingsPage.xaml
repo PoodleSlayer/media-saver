@@ -33,13 +33,38 @@
 				<StackLayout Orientation="Vertical">
 					<Label Text="Save Location:"
 						   FontAttributes="Bold"
-						   VerticalOptions="Start" />
+						   Margin="20,20,0,0" />
 					<Label Text="{Binding FolderText}"
 						   BackgroundColor="LightGray"
 						   x:Name="DestFolderLbl"
-						   Margin="10, 0, 10, 0" />
+						   Margin="40, 0, 40, 0" />
 					<Button Text="Choose Folder"
-							x:Name="SelectBtn" />
+							x:Name="SelectBtn"
+							Margin="40,0,40,0" />
+					<Label Text="When an image is downloaded...:"
+						   FontAttributes="Bold"
+						   Margin="20,0,0,0" />
+					<StackLayout Orientation="Horizontal"
+								 Margin="40,0,0,0" >
+						<Switch x:Name="NoneSwitch"
+								IsToggled="{Binding NoneSwitch}"/>
+						<Label Text="Do nothing"
+							   VerticalOptions="CenterAndExpand" />
+					</StackLayout>
+					<StackLayout Orientation="Horizontal"
+								 Margin="40,0,0,0" >
+						<Switch x:Name="ToastSwitch"
+								IsToggled="{Binding ToastSwitch}"/>
+						<Label Text="Toast (small popup)"
+							   VerticalOptions="CenterAndExpand" />
+					</StackLayout>
+					<StackLayout Orientation="Horizontal"
+								 Margin="40,0,0,0" >
+						<Switch x:Name="NotifSwitch"
+								IsToggled="{Binding NotifSwitch}"/>
+						<Label Text="Notification"
+							   VerticalOptions="CenterAndExpand" />
+					</StackLayout>
 				</StackLayout>
 			</ScrollView>
 			<controls:PHButton Text="Save Settings"

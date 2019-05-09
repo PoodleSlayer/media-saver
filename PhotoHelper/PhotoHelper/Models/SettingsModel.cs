@@ -16,5 +16,7 @@ namespace PhotoHelper.Models
 		public string Id = "settingsFile";
 
 		public string SaveLocation { get; set; }
+
+		public string DownloadFeedback { get; set; }
 	}
 }

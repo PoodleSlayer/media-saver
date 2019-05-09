@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.IoC;
+using PhotoHelper.Models;
 using PhotoHelper.Utility;
 using PhotoHelper.ViewModels;
 using System;
@@ -40,8 +41,25 @@ namespace PhotoHelper.Views
 
 		private void SaveBtn_Clicked(object sender, EventArgs e)
 		{
+			// update the user's Save Location
 			Settings.SaveLocation = fileHelper.SaveLocation;
+
+			// update the user's Download Feedback
+			if (ViewModel.NoneSwitch)
+			{
+				Settings.DownloadFeedback = Settings.DownloadNone;
+			}
+			else if (ViewModel.ToastSwitch)
+			{
+				Settings.DownloadFeedback = Settings.DownloadToast;
+			}
+			else
+			{
+				Settings.DownloadFeedback = Settings.DownloadNotif;
+			}
+
 			Settings.SaveSettings();
+
 			Navigation.PopModalAsync();
 		}
 
