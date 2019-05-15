@@ -89,17 +89,17 @@ namespace PhotoHelper.ViewModels
 			Messenger.Default.Register<SettingsFolderMessage>(this, UpdateFolderLabel);
 
 			FolderText = SaveLocation ?? "Please choose a folder...";
-			if (Settings.DownloadFeedback == Settings.DownloadNone)
+			if (Settings.DownloadFeedback == Settings.DownloadNotif)
 			{
-				NoneSwitch = true;
+				NotifSwitch = true;
 			}
 			else if (Settings.DownloadFeedback == Settings.DownloadToast)
 			{
 				ToastSwitch = true;
 			}
 			else
-			{   // this better be DownloadNotif
-				NotifSwitch = true;
+			{   // this better be DownloadNone or empty due to no settings
+				NoneSwitch = true;
 			}
 		}
 

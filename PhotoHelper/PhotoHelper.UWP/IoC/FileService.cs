@@ -5,6 +5,7 @@ using PhotoHelper.Utility.Messages;
 using PhotoHelper.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -89,7 +90,7 @@ namespace PhotoHelper.UWP.IoC
 			}
 			catch (Exception ex)
 			{
-				string oops = ex.Message;
+				Debug.WriteLine(ex.Message);
 			}
 
 			return true;

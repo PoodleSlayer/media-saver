@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IoC\FileService.cs" />
+    <Compile Include="IoC\NotifierService.cs" />
     <Compile Include="IoC\SetupDroid.cs" />
     <Compile Include="IoC\ToastService.cs" />
     <Compile Include="MainActivity.cs" />

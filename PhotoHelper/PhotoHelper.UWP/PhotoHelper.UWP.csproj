@@ -93,6 +93,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="IoC\FileService.cs" />
+    <Compile Include="IoC\NotifierService.cs" />
     <Compile Include="IoC\SetupUWP.cs" />
     <Compile Include="IoC\ToastService.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -148,6 +149,9 @@
   <ItemGroup>
     <PackageReference Include="Autofac">
       <Version>4.9.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
+      <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="MvvmLightLibsStd10">
       <Version>5.4.1.1</Version>

@@ -334,8 +334,21 @@ namespace PhotoHelper
 			// wrap this in a try/catch
 			await fileHelper.DownloadFile(downloadURL, filenameToUse);
 
-			// not sure if this causes problems running NOT on the UI thread...
-			AppContainer.Container.Resolve<IToastService>().MakeToast("Downloaded!");
+			if (Settings.DownloadFeedback == Settings.DownloadToast)
+			{
+				// TOAST
+				// not sure if this causes problems running NOT on the UI thread...
+				AppContainer.Container.Resolve<IToastService>().MakeToast("Downloaded!");
+			}
+			else if (Settings.DownloadFeedback == Settings.DownloadNotif)
+			{
+				// NOTIFICATION
+				AppContainer.Container.Resolve<INotifierService>().Notify(filenameToUse);
+			}
+			else
+			{
+				// DO NOTHING
+			}
 
 			// if download successful, toast or notify the user
 
