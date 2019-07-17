@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.Models;
+using PhotoHelper.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +21,8 @@ namespace PhotoHelper.ViewModels
 
 		public GalleryViewModel()
 		{
+			//pageList = new ObservableCollection<PageModel>();
+			pageList = new ObservableRangeCollection<PageModel>();
 			SetupCommands();
 		}
 
@@ -36,8 +39,10 @@ namespace PhotoHelper.ViewModels
 			Messenger.Default.Send(item);
 		}
 
-		private ObservableCollection<PageModel> pageList;
-		public ObservableCollection<PageModel> PageList
+		//private ObservableCollection<PageModel> pageList;
+		//public ObservableCollection<PageModel> PageList
+		private ObservableRangeCollection<PageModel> pageList;
+		public ObservableRangeCollection<PageModel> PageList
 		{
 			get => pageList;
 			set
@@ -65,7 +70,17 @@ namespace PhotoHelper.ViewModels
 		public void DidAppear()
 		{
 			var pageCollection = App.Database.GetCollection<PageModel>(PageModel.CollectionName);
-			PageList = new ObservableCollection<PageModel>(pageCollection.FindAll());
+			var pageCollectionList = pageCollection.FindAll();
+			List<PageModel> newPages = new List<PageModel>();
+			//PageList = new ObservableCollection<PageModel>(pageCollection.FindAll());
+			foreach (PageModel page in pageCollectionList)
+			{
+				if (pageList.FirstOrDefault(p => p.PageURL == page.PageURL) == null)
+				{
+					newPages.Add(page);
+				}
+			}
+			pageList.AddRange(newPages);
 		}
 
 		public void DidDisappear()

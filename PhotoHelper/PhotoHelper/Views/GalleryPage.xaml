@@ -29,6 +29,7 @@
 					Grid.Row="0"
 					Grid.Column="2" />
 			<ListView x:Name="PageListView"
+					  CachingStrategy="RecycleElement"
 					  ItemsSource="{Binding PageList}"
 					  Grid.Row="2"
 					  Grid.Column="0"

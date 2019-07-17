@@ -56,7 +56,8 @@
 			   Grid.Column="0"
 			   Grid.ColumnSpan="3"
 			   Grid.Row="2" />-->
-		<StackLayout Orientation="Vertical"
+		<StackLayout x:Name="EntryStack"  
+					 Orientation="Vertical"
 					 Grid.Column="0"
 					 Grid.ColumnSpan="3"
 					 Grid.Row="2">

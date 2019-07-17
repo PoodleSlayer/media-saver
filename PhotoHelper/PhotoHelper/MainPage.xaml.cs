@@ -120,6 +120,12 @@ namespace PhotoHelper
 			// strip the URL down to just the username so it looks nicer if a user 
 			// pastes a URL into the app
 			string tempURL = URLEntry.Text;
+
+			if (String.IsNullOrEmpty(tempURL))
+			{
+				return;
+			}
+
 			if (tempURL.Contains(@"instagram.com"))
 			{
 				var URLParts = tempURL.Split(new string[] { ".com/" }, StringSplitOptions.None);
@@ -140,6 +146,7 @@ namespace PhotoHelper
 		protected override bool OnBackButtonPressed()
 		{
 			WebViewGoBack();
+			AlbumIndex.Text = string.Empty;
 
 			return true;
 		}
@@ -174,6 +181,7 @@ namespace PhotoHelper
 		private void BackBtn_Clicked(object sender, EventArgs e)
 		{
 			WebViewGoBack();
+			AlbumIndex.Text = string.Empty;
 		}
 
 		private void WebViewGoBack()
