@@ -96,6 +96,7 @@
     <Compile Include="IoC\NotifierService.cs" />
     <Compile Include="IoC\SetupUWP.cs" />
     <Compile Include="IoC\ToastService.cs" />
+    <Compile Include="IoC\WebService.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

@@ -153,6 +153,10 @@ namespace PhotoHelper
 
 		private void Webby_Navigated(object sender, WebNavigatedEventArgs e)
 		{
+			// THIS IS GETTING CALLED MULTIPLE TIMES ON ANDROID
+			// might be a bug with this version of XForms WebView. Try upgrading
+			// or just making a custom renderer
+
 			// don't care if they navigate to a specific image, so don't store these
 			if (e.Url.Contains(@"instagram.com/p/"))
 			{
@@ -207,6 +211,18 @@ namespace PhotoHelper
 			//string pleaseWork = await webby.EvaluateJavaScriptAsync(jsHorseCrap);
 			//string pleaseWork2 = await webby.EvaluateJavaScriptAsync("GetThingPlease()");
 			//*****************************************************************
+
+			// DEBUGGING ----------------------------------
+			// Instagram added some weird login dialog that shows up after viewing a few pictures
+			// while not logged in :c
+			//
+			//string pageSource = await webby.EvaluateJavaScriptAsync("document.body.innerHTML");
+			//string dialogHTML = await webby.EvaluateJavaScriptAsync("document.querySelector(\"div[role = 'dialog']\").parentNode.outerHTML = \"\"");
+			//string dialogHTML = await webby.EvaluateJavaScriptAsync("document.querySelector(\"div[role = 'dialog']\").parentNode.remove()");
+			//string dialogHTML = await webby.EvaluateJavaScriptAsync("function fixit(){document.querySelector(\"div[role = 'dialog']\").parentNode.remove();}");
+			//string runDialogHTML = await webby.EvaluateJavaScriptAsync("fixit()");
+			//return;
+			// DEBUGGING ----------------------------------
 
 			// d'oh, don't attempt to save if user hasn't specified a location
 			if (String.IsNullOrEmpty(Settings.SaveLocation))

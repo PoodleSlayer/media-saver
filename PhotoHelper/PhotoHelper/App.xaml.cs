@@ -31,6 +31,10 @@ namespace PhotoHelper
 		protected override void OnSleep()
 		{
 			// Handle when your app sleeps
+			// NOTE: this is also closed on successful termination of app
+
+			// Try to clear the WebView cache of any cookies
+			AppContainer.Container.Resolve<IWebService>().ClearCache();
 		}
 
 		protected override void OnResume()

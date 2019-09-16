@@ -63,10 +63,12 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="26.1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomRenderers\PHWebViewRenderer.cs" />
     <Compile Include="IoC\FileService.cs" />
     <Compile Include="IoC\NotifierService.cs" />
     <Compile Include="IoC\SetupDroid.cs" />
     <Compile Include="IoC\ToastService.cs" />
+    <Compile Include="IoC\WebService.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

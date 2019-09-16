@@ -98,6 +98,7 @@
     <Compile Include="IoC\NotifierService.cs" />
     <Compile Include="IoC\SetupiOS.cs" />
     <Compile Include="IoC\ToastService.cs" />
+    <Compile Include="IoC\WebService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />

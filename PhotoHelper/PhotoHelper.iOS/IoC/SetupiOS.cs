@@ -13,6 +13,7 @@ namespace PhotoHelper.iOS.IoC
 			cb.RegisterType<FileService>().As<IFileService>().SingleInstance();
 			cb.RegisterType<ToastService>().As<IToastService>().SingleInstance();
 			cb.RegisterType<NotifierService>().As<INotifierService>().SingleInstance();
+			cb.RegisterType<WebService>().As<IWebService>().SingleInstance();
 		}
 	}
 }

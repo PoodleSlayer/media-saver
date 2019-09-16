@@ -65,6 +65,9 @@
 						<Label Text="Notification"
 							   VerticalOptions="CenterAndExpand" />
 					</StackLayout>
+					<Button x:Name="CacheBtn"
+							Text="Clear WebView Cache"
+							Margin="40,0,40,0" />
 				</StackLayout>
 			</ScrollView>
 			<controls:PHButton Text="Save Settings"

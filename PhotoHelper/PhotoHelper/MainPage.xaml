@@ -83,7 +83,7 @@
 				Style="{StaticResource SmallButtonFont}"
 				Grid.Column="3"
 				Grid.Row="2" />
-		<WebView x:Name="webby"
+		<controls:PHWebView x:Name="webby"
 				 Source="https://www.instagram.com/"
 				 Grid.Column="0"
 				 Grid.Row="3"

@@ -27,6 +27,7 @@ namespace PhotoHelper.Views
 			BackBtn.Clicked += BackBtn_Clicked;
 			SelectBtn.Clicked += SelectBtn_Clicked;
 			SaveBtn.Clicked += SaveBtn_Clicked;
+			CacheBtn.Clicked += CacheBtn_Clicked;
 
 			BindingContext = AppContainer.Container.Resolve<SettingsViewModel>();
 
@@ -37,6 +38,11 @@ namespace PhotoHelper.Views
 			{
 				ViewModel.SaveLocation = Settings.SaveLocation;
 			}
+		}
+
+		private void CacheBtn_Clicked(object sender, EventArgs e)
+		{
+			AppContainer.Container.Resolve<IWebService>().ClearCache();
 		}
 
 		private void SaveBtn_Clicked(object sender, EventArgs e)
