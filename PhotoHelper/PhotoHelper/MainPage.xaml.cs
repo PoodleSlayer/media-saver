@@ -43,6 +43,7 @@ namespace PhotoHelper
 			GalleryBtn.Clicked += GalleryBtn_Clicked;
 			SaveBtn.Clicked += SaveBtn_Clicked;
 			URLBtn.Clicked += URLBtn_Clicked;
+			HideBtn.Clicked += HideBtn_Clicked;
 
 			webby.Navigated += Webby_Navigated;
 			ViewModel.URLChanged += ViewModel_URLChanged;
@@ -69,6 +70,25 @@ namespace PhotoHelper
 			{
 				AlbumIndexStackLayout.Margin = new Thickness(0, -15, 0, 0);
 			}
+		}
+
+		private async void HideBtn_Clicked(object sender, EventArgs e)
+		{
+			await RemovePopup();
+		}
+
+		private async Task<bool> RemovePopup(bool waitToTry = false)
+		{
+			// attempt to remove the Login popup...
+
+			if (waitToTry)
+			{
+				await Task.Delay(1000);
+			}
+
+			string dialogHTML = await webby.EvaluateJavaScriptAsync("function fixit(){var a = document.querySelector(\"div[role = 'dialog']\").parentNode.style.visibility = \"hidden\"; var b = document.getElementsByTagName(\"body\")[0].style.removeProperty(\"overflow\");}");
+			string runDialogHTML = await webby.EvaluateJavaScriptAsync("fixit()");
+			return true;
 		}
 
 		private void MainPage_SizeChanged(object sender, EventArgs e)
@@ -145,8 +165,9 @@ namespace PhotoHelper
 
 		protected override bool OnBackButtonPressed()
 		{
-			WebViewGoBack();
-			AlbumIndex.Text = string.Empty;
+			//WebViewGoBack();
+			//AlbumIndex.Text = string.Empty;
+			GoBack();
 
 			return true;
 		}
@@ -160,6 +181,7 @@ namespace PhotoHelper
 			// don't care if they navigate to a specific image, so don't store these
 			if (e.Url.Contains(@"instagram.com/p/"))
 			{
+				RemovePopup(true);
 				return;
 			}
 
@@ -184,7 +206,16 @@ namespace PhotoHelper
 
 		private void BackBtn_Clicked(object sender, EventArgs e)
 		{
+			//WebViewGoBack();
+			//RemovePopup(true);
+			//AlbumIndex.Text = string.Empty;
+			GoBack();
+		}
+
+		private void GoBack()
+		{
 			WebViewGoBack();
+			RemovePopup(true);
 			AlbumIndex.Text = string.Empty;
 		}
 

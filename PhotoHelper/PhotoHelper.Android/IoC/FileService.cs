@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.Content.PM;
+using Android.Media;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Widget;
@@ -76,6 +77,9 @@ namespace PhotoHelper.Droid.IoC
 				}
 
 				File.WriteAllBytes(filepath, bytes);
+
+				// manually tell Android Photos Gallery that a new file was downloaded
+				MediaScannerConnection.ScanFile(Application.Context, new string[] { filepath }, null, null);
 			};
 			var url = new Uri(downloadURL);
 
@@ -88,6 +92,8 @@ namespace PhotoHelper.Droid.IoC
 			{
 				Debug.WriteLine(ex.Message);
 			}
+
+			
 
 			return true;
 		}

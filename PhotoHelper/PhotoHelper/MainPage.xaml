@@ -43,6 +43,15 @@
 		<controls:PHButton x:Name="BackBtn"
 				Text="Go Back"
 				Style="{StaticResource SmallButtonFont}"
+						   HorizontalOptions="Start"
+						   WidthRequest="48"
+				Grid.Column="2"
+				Grid.Row="1" />
+		<controls:PHButton x:Name="HideBtn"
+				Text="Hide Popup"
+				Style="{StaticResource SmallButtonFont}"
+						   HorizontalOptions="End"
+						   WidthRequest="48"
 				Grid.Column="2"
 				Grid.Row="1" />
 		<controls:PHButton x:Name="GalleryBtn"
