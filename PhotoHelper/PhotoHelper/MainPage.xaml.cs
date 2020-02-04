@@ -25,6 +25,7 @@ namespace PhotoHelper
 		private GalleryPage galleryPage;
 		private SettingsPage settingsPage;
 		private SavePage savePage;
+		private DemoPage demoPage;
 		private IFileService fileHelper;
 		private string currentURL;
 		private double screenHeight;
@@ -64,6 +65,7 @@ namespace PhotoHelper
 			galleryPage = new GalleryPage();
 			settingsPage = new SettingsPage();
 			savePage = new SavePage();
+			demoPage = new DemoPage();
 
 			// platform specific layout, if needed
 			if (Device.RuntimePlatform == Device.Android)
@@ -74,7 +76,9 @@ namespace PhotoHelper
 
 		private async void HideBtn_Clicked(object sender, EventArgs e)
 		{
-			await RemovePopup();
+			//await RemovePopup();
+
+			await Navigation.PushModalAsync(demoPage);
 		}
 
 		private async Task<bool> RemovePopup(bool waitToTry = false)
@@ -181,7 +185,7 @@ namespace PhotoHelper
 			// don't care if they navigate to a specific image, so don't store these
 			if (e.Url.Contains(@"instagram.com/p/"))
 			{
-				RemovePopup(true);
+				_ = RemovePopup(true);
 				return;
 			}
 
@@ -215,7 +219,7 @@ namespace PhotoHelper
 		private void GoBack()
 		{
 			WebViewGoBack();
-			RemovePopup(true);
+			_ = RemovePopup(true);  // C# 7 lets you use _ as a discard, or a dummy throwaway variable. here it is used to hold the Task we don't care about
 			AlbumIndex.Text = string.Empty;
 		}
 
@@ -299,7 +303,7 @@ namespace PhotoHelper
 			{
 				Debug.WriteLine(e.Message);
 			}
-			if (response.IsSuccessStatusCode)
+			if (response != null && response.IsSuccessStatusCode)
 			{
 				var content = await response.Content.ReadAsStringAsync();
 
@@ -331,10 +335,20 @@ namespace PhotoHelper
 						return "";
 					}
 
-					JArray imgSources = (JArray)albumArray[albumIndex]["node"]["display_resources"];
-					JObject bestImg = (JObject)imgSources.OrderByDescending(x => x["config_width"]).FirstOrDefault();
+					if (albumArray[albumIndex]["node"]["__typename"].ToString() == "GraphVideo")
+					{
+						// it's a video!
+						string videoURL = albumArray[albumIndex]["node"]["video_url"].ToString();
+						return videoURL;
+					}
+					else
+					{
+						// it's an image
+						JArray imgSources = (JArray)albumArray[albumIndex]["node"]["display_resources"];
+						JObject bestImg = (JObject)imgSources.OrderByDescending(x => x["config_width"]).FirstOrDefault();
 
-					return bestImg["src"].ToString();
+						return bestImg["src"].ToString();
+					}
 				}
 				else
 				{

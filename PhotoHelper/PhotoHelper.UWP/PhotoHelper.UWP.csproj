@@ -108,9 +108,36 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\back.scale-100.png" />
+    <Content Include="Assets\back.scale-200.png" />
+    <Content Include="Assets\back.scale-400.png" />
+    <Content Include="Assets\check.scale-100.png" />
+    <Content Include="Assets\check.scale-200.png" />
+    <Content Include="Assets\check.scale-400.png" />
+    <Content Include="Assets\delete.scale-100.png" />
+    <Content Include="Assets\delete.scale-200.png" />
+    <Content Include="Assets\delete.scale-400.png" />
+    <Content Include="Assets\download.scale-100.png" />
+    <Content Include="Assets\download.scale-200.png" />
+    <Content Include="Assets\download.scale-400.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\left.scale-100.png" />
+    <Content Include="Assets\left.scale-200.png" />
+    <Content Include="Assets\left.scale-400.png" />
+    <Content Include="Assets\list.scale-100.png" />
+    <Content Include="Assets\list.scale-200.png" />
+    <Content Include="Assets\list.scale-400.png" />
+    <Content Include="Assets\right.scale-100.png" />
+    <Content Include="Assets\right.scale-200.png" />
+    <Content Include="Assets\right.scale-400.png" />
+    <Content Include="Assets\search.scale-100.png" />
+    <Content Include="Assets\search.scale-200.png" />
+    <Content Include="Assets\search.scale-400.png" />
+    <Content Include="Assets\settings.scale-100.png" />
+    <Content Include="Assets\settings.scale-200.png" />
+    <Content Include="Assets\settings.scale-400.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-200.png" />
     <Content Include="Assets\SmallTile.scale-400.png" />
@@ -129,6 +156,12 @@
     <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\star.scale-100.png" />
+    <Content Include="Assets\star.scale-200.png" />
+    <Content Include="Assets\star.scale-400.png" />
+    <Content Include="Assets\star_filled.scale-100.png" />
+    <Content Include="Assets\star_filled.scale-200.png" />
+    <Content Include="Assets\star_filled.scale-400.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
