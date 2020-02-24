@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.roguecat.dev.PhotoHelper" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="26" />
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.roguecat.dev.PhotoHelper" android:installLocation="auto" android:versionCode="1" android:versionName="1.0">
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
 	<application android:label="PhotoHelper.Android"></application>
 </manifest>
