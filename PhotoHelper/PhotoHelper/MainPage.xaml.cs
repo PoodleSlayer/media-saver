@@ -76,9 +76,9 @@ namespace PhotoHelper
 
 		private async void HideBtn_Clicked(object sender, EventArgs e)
 		{
-			//await RemovePopup();
+			await RemovePopup();
 
-			await Navigation.PushModalAsync(demoPage);
+			//await Navigation.PushModalAsync(demoPage);
 		}
 
 		private async Task<bool> RemovePopup(bool waitToTry = false)

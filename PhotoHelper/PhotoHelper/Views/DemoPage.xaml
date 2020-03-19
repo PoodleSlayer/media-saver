@@ -19,68 +19,119 @@
 			<RowDefinition Height="1*" />
 			<RowDefinition Height="10*" />
 		</Grid.RowDefinitions>
-		<Button x:Name="BackBtn"
+		<!--<Button x:Name="BackBtn"
 				Grid.Column="0"
 				Grid.Row="0"
 				HorizontalOptions="FillAndExpand"
 				Image="{OnPlatform iOS='back.png', Android='back.png', UWP='Assets/back.png'}"
-				Padding="-1" />
+				Padding="-1" />-->
+		<ImageButton x:Name="BackBtn"
+					 Grid.Column="0"
+					 Grid.Row="0"
+					 BackgroundColor="Transparent"
+					 HorizontalOptions="FillAndExpand"
+					 Margin="5"
+					 Source="{OnPlatform iOS='back.png', Android='back.png', UWP='Assets/back.png'}" />
 		<Entry Placeholder="Page to load (URL or name, e.g. @cat)"
 			   Grid.Column="1"
 			   Grid.ColumnSpan="5"
-			   Grid.Row="0"/>
-		<Button x:Name="SearchBtn"
+			   Grid.Row="0" />
+		<!--<Button x:Name="SearchBtn"
 				Grid.Column="6"
 				Grid.Row="0"
 				HorizontalOptions="FillAndExpand"
 				Image="{OnPlatform iOS='search.png', Android='search.png', UWP='Assets/search.png'}"
-				Padding="-1" />
-		<Button x:Name="SettingsBtn"
+				Padding="-1" />-->
+		<ImageButton x:Name="SearchBtn"
+					 Grid.Column="6"
+					 Grid.Row="0"
+					 BackgroundColor="Transparent"
+					 HorizontalOptions="FillAndExpand"
+					 Margin="5"
+					 Source="{OnPlatform iOS='search.png', Android='search.png', UWP='Assets/search.png'}" />
+		<!--<Button x:Name="SettingsBtn"
 				Grid.Column="7"
 				Grid.Row="0"
 				HorizontalOptions="FillAndExpand"
 				Image="{OnPlatform iOS='settings.png', Android='settings.png', UWP='Assets/settings.png'}"
-				Padding="-1" />
-		<Button x:Name="SaveBtn"
+				Padding="-1" />-->
+		<ImageButton x:Name="SettingsBtn"
+					 Grid.Column="7"
+					 Grid.Row="0"
+					 BackgroundColor="Transparent"
+					 HorizontalOptions="FillAndExpand"
+					 Margin="5"
+					 Source="{OnPlatform iOS='settings.png', Android='settings.png', UWP='Assets/settings.png'}" />
+		<!--<Button x:Name="SaveBtn"
 				Grid.Column="0"
 				Grid.Row="1"
 				HorizontalOptions="FillAndExpand"
 				Image="{OnPlatform iOS='star.png', Android='star.png', UWP='Assets/star.png'}"
-				Padding="-1" />
-		<Button x:Name="GalleryBtn"
+				Padding="-1" />-->
+		<ImageButton x:Name="SaveBtn"
+					 Grid.Column="0"
+					 Grid.Row="1"
+					 BackgroundColor="Transparent"
+					 HorizontalOptions="FillAndExpand"
+					 Margin="5"
+					 Source="{OnPlatform iOS='star.png', Android='star.png', UWP='Assets/star.png'}" />
+		<!--<Button x:Name="GalleryBtn"
 				Grid.Column="1"
 				Grid.Row="1"
 				HorizontalOptions="FillAndExpand"
 				Image="{OnPlatform iOS='list.png', Android='list.png', UWP='Assets/list.png'}"
-				Padding="-1" />
-		<Button x:Name="LeftBtn"
+				Padding="-1" />-->
+		<ImageButton x:Name="GalleryBtn"
+					 Grid.Column="1"
+					 Grid.Row="1"
+					 BackgroundColor="Transparent"
+					 HorizontalOptions="FillAndExpand"
+					 Margin="5"
+					 Source="{OnPlatform iOS='list.png', Android='list.png', UWP='Assets/list.png'}" />
+		<!--<Button x:Name="LeftBtn"
 				Grid.Column="2"
 				Grid.Row="1"
 				HorizontalOptions="FillAndExpand"
 				Image="{OnPlatform iOS='left.png', Android='left.png', UWP='Assets/left.png'}"
-				Padding="5" />
+				Padding="5" />-->
+		<ImageButton x:Name="LeftBtn"
+					 Grid.Column="2"
+					 Grid.Row="1"
+					 BackgroundColor="Transparent"
+					 HorizontalOptions="FillAndExpand"
+					 Margin="5"
+					 Source="{OnPlatform iOS='left.png', Android='left.png', UWP='Assets/left.png'}" />
 		<Entry Placeholder="Album Page: "
 			   Grid.Column="3"
 			   Grid.ColumnSpan="2"
-			   Grid.Row="1"/>
-		<Button x:Name="RightBtn"
+			   Grid.Row="1" />
+		<!--<Button x:Name="RightBtn"
 				Grid.Column="5"
 				Grid.Row="1"
 				BackgroundColor="Transparent"
 				BorderColor="Transparent"
 				HorizontalOptions="FillAndExpand"
 				Image="{OnPlatform iOS='right.png', Android='right.png', UWP='Assets/right.png'}"
-				Padding="-1" />
-		<!--<ImageButton x:Name="RightBtn"
+				Padding="-1" />-->
+		<ImageButton x:Name="RightBtn"
 					 Grid.Column="5"
 					 Grid.Row="1"
+					 BackgroundColor="Transparent"
 					 HorizontalOptions="FillAndExpand"
-					 Source="{OnPlatform iOS='right.png', Android='right.png', UWP='Assets/right.png'}" />-->
-		<Button x:Name="DownloadBtn"
+					 Margin="5"
+					 Source="{OnPlatform iOS='right.png', Android='right.png', UWP='Assets/right.png'}" />
+		<!--<Button x:Name="DownloadBtn"
 				Grid.Column="7"
 				Grid.Row="1"
 				HorizontalOptions="FillAndExpand"
 				Image="{OnPlatform iOS='download.png', Android='download.png', UWP='Assets/download.png'}"
-				Padding="-1" />
+				Padding="-1" />-->
+		<ImageButton x:Name="DownloadBtn"
+					 Grid.Column="7"
+					 Grid.Row="1"
+					 BackgroundColor="Transparent"
+					 HorizontalOptions="FillAndExpand"
+					 Margin="5"
+					 Source="{OnPlatform iOS='download.png', Android='download.png', UWP='Assets/download.png'}" />
 	</Grid>
 </ContentPage>

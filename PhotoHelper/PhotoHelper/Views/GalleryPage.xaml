@@ -42,8 +42,9 @@
 								<Label Text="{Binding PageName}"
 									   FontAttributes="Bold"
 									   FontSize="Large"
-									   HorizontalOptions="StartAndExpand"
-									   Margin="15,10,15,10"/>
+									   HorizontalOptions="FillAndExpand"
+									   VerticalOptions="CenterAndExpand"
+									   Margin="15,0,15,0"/>
 								<Button Text="Remove"
 										BindingContext="{Binding Source={x:Reference PageListView}, Path=BindingContext}"
 										Command="{Binding RemoveItemCommand}"
