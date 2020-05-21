@@ -96,7 +96,14 @@
 				 Source="https://www.instagram.com/"
 				 Grid.Column="0"
 				 Grid.Row="3"
-				 Grid.ColumnSpan="4" />
+				 Grid.ColumnSpan="4"
+				 IsVisible="{Binding MasterWebViewVisisble}" />
+		<controls:PHWebView x:Name="DetailWebView"
+				 Source="https://www.instagram.com/"
+				 Grid.Column="0"
+				 Grid.Row="3"
+				 Grid.ColumnSpan="4"
+				 IsVisible="{Binding DetailWebViewVisible}" />
 	</Grid>
 	
     <!--<StackLayout Orientation="Vertical">

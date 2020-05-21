@@ -26,8 +26,10 @@ namespace PhotoHelper
 		private SettingsPage settingsPage;
 		private SavePage savePage;
 		private DemoPage demoPage;
+		private MobileDLPage mobilePage;
 		private IFileService fileHelper;
 		private string currentURL;
+		private string currentDetailURL;
 		private double screenHeight;
 		private double screenWidth;
 
@@ -47,6 +49,15 @@ namespace PhotoHelper
 			HideBtn.Clicked += HideBtn_Clicked;
 
 			webby.Navigated += Webby_Navigated;
+			webby.Navigating += Webby_Navigating;
+			webby.RegisterAction(data =>
+			{
+				LoadDetailWebView(data);
+			});
+
+			DetailWebView.Navigated += DetailWebView_Navigated;
+			DetailWebView.Navigating += DetailWebView_Navigating;
+
 			ViewModel.URLChanged += ViewModel_URLChanged;
 			SizeChanged += MainPage_SizeChanged;
 
@@ -66,6 +77,7 @@ namespace PhotoHelper
 			settingsPage = new SettingsPage();
 			savePage = new SavePage();
 			demoPage = new DemoPage();
+			mobilePage = new MobileDLPage();
 
 			// platform specific layout, if needed
 			if (Device.RuntimePlatform == Device.Android)
@@ -79,6 +91,15 @@ namespace PhotoHelper
 			await RemovePopup();
 
 			//await Navigation.PushModalAsync(demoPage);
+			//await Navigation.PushModalAsync(mobilePage);
+
+			// debug - backing up list of stuff
+			//var pageCollection = App.Database.GetCollection<PageModel>(PageModel.CollectionName);
+			//var pageCollectionList = pageCollection.FindAll();
+			//var pList = new List<PageModel>();
+			//pList.AddRange(pageCollectionList);
+
+			//await fileHelper.BackupList(pList);
 		}
 
 		private async Task<bool> RemovePopup(bool waitToTry = false)
@@ -91,7 +112,10 @@ namespace PhotoHelper
 			}
 
 			string dialogHTML = await webby.EvaluateJavaScriptAsync("function fixit(){var a = document.querySelector(\"div[role = 'dialog']\").parentNode.style.visibility = \"hidden\"; var b = document.getElementsByTagName(\"body\")[0].style.removeProperty(\"overflow\");}");
-			string runDialogHTML = await webby.EvaluateJavaScriptAsync("fixit()");
+			string runDialogHTML = await webby.EvaluateJavaScriptAsync("fixit();");
+
+			//await InjectScripts();
+
 			return true;
 		}
 
@@ -134,6 +158,10 @@ namespace PhotoHelper
 			if (ViewModel.CurrentURL != currentURL && !String.IsNullOrEmpty(currentURL))
 			{
 				webby.Source = ViewModel.CurrentURL;
+				if (!webby.IsVisible)
+				{
+					SwapWebViews();
+				}
 			}
 		}
 
@@ -176,11 +204,99 @@ namespace PhotoHelper
 			return true;
 		}
 
-		private void Webby_Navigated(object sender, WebNavigatedEventArgs e)
+		private void LoadDetailWebView(string data)
+		{
+			Device.BeginInvokeOnMainThread(() =>
+			{
+				DetailWebView.Source = "https://instagram.com" + data;
+			});
+		}
+
+		private void DetailWebView_Navigating(object sender, WebNavigatingEventArgs e)
+		{
+			;
+		}
+
+		private void DetailWebView_Navigated(object sender, WebNavigatedEventArgs e)
+		{
+			if (e.Url.Contains("instagram.com/p/") && !e.Url.Equals(currentDetailURL))
+			{
+				SwapWebViews();
+			}
+
+			currentDetailURL = e.Url;
+		}
+
+		private void SwapWebViews()
+		{
+			webby.IsVisible = !webby.IsVisible;
+			DetailWebView.IsVisible = !DetailWebView.IsVisible;
+		}
+
+		private void Webby_Navigating(object sender, WebNavigatingEventArgs e)
+		{
+			// this should only happen in UWP where this event works as expected
+			if (e.Url.Contains("instagram.com/p/"))
+			{
+				e.Cancel = true;
+				DetailWebView.Source = e.Url;
+			}
+			else if (e.Url.Equals(currentURL))
+			{
+				// stop Android from navigating twice...?
+				e.Cancel = true;
+			}
+		}
+
+		private async Task<bool> InjectScripts()
+		{
+			string csharpScript = "function invokeCSCode(data) {" +
+									"invokeCSharpAction(data);" +
+								  "}";
+
+			string clickScript = "";
+			if (Device.RuntimePlatform == Device.Android)
+			{
+				clickScript = "function clickHelper(e) {" +
+								 "var e = window.e || e;" +
+								 "var linkToOpen = e.target.parentNode.parentNode.getAttribute('href');" +
+								 "if (linkToOpen == null)" +
+									"return;" +
+								"if (e.type == 'touchend' && e.cancelable == true) {" +
+									"e.preventDefault();" +
+									"invokeCSCode(linkToOpen);" +
+								"}" +
+							  "}" +
+							  "document.addEventListener('touchend', clickHelper, false);";
+			}
+			else
+			{
+				clickScript = "function clickHelper(e) {" +
+								 "var e = window.e || e;" +
+								 "var linkToOpen = e.target.parentNode.parentNode.getAttribute('href');" +
+								 "if (linkToOpen == null)" +
+									"return;" +
+								 "e.preventDefault();" +
+								 "window.location.href = linkToOpen;" +
+							  "}" +
+							  "document.addEventListener('click', clickHelper, false);";
+			}
+			string runScript1 = await webby.EvaluateJavaScriptAsync(csharpScript);
+			string runScript2 = await webby.EvaluateJavaScriptAsync(clickScript);
+
+			return true;
+		}
+
+		private async void Webby_Navigated(object sender, WebNavigatedEventArgs e)
 		{
 			// THIS IS GETTING CALLED MULTIPLE TIMES ON ANDROID
 			// might be a bug with this version of XForms WebView. Try upgrading
 			// or just making a custom renderer
+
+			if (!e.Url.Equals(currentURL))
+			{
+				await InjectScripts();
+			}
 
 			// don't care if they navigate to a specific image, so don't store these
 			if (e.Url.Contains(@"instagram.com/p/"))
@@ -188,7 +304,7 @@ namespace PhotoHelper
 				_ = RemovePopup(true);
 				return;
 			}
-
+			
 			currentURL = e.Url;
 			ViewModel.CurrentURL = e.Url;
 		}
@@ -218,9 +334,16 @@ namespace PhotoHelper
 
 		private void GoBack()
 		{
-			WebViewGoBack();
-			_ = RemovePopup(true);  // C# 7 lets you use _ as a discard, or a dummy throwaway variable. here it is used to hold the Task we don't care about
-			AlbumIndex.Text = string.Empty;
+			if (webby.IsVisible)
+			{
+				WebViewGoBack();
+				_ = RemovePopup(true);  // C# 7 lets you use _ as a discard, or a dummy throwaway variable. here it is used to hold the Task we don't care about
+			}
+			else
+			{
+				SwapWebViews();
+				AlbumIndex.Text = string.Empty;
+			}
 		}
 
 		private void WebViewGoBack()
@@ -266,7 +389,8 @@ namespace PhotoHelper
 				return;
 			}
 
-			string pageUrl = await webby.EvaluateJavaScriptAsync("document.location.href");
+			//string pageUrl = await webby.EvaluateJavaScriptAsync("document.location.href");
+			string pageUrl = await DetailWebView.EvaluateJavaScriptAsync("document.location.href");
 			string urlToDownload = await GetImgUrl(pageUrl);
 			
 			await DownloadURL(urlToDownload);

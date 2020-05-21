@@ -38,7 +38,13 @@ namespace PhotoHelper.Droid
 			TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            base.OnCreate(savedInstanceState);
+#if DEBUG
+			global::Android.Webkit.WebView.SetWebContentsDebuggingEnabled(true);
+#else
+			global::Android.Webkit.WebView.SetWebContentsDebuggingEnabled(false);
+#endif
+
+			base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new SetupDroid()));
 

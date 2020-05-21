@@ -80,7 +80,10 @@ namespace PhotoHelper.ViewModels
 					newPages.Add(page);
 				}
 			}
-			pageList.AddRange(newPages);
+			if (newPages.Count > 0)
+			{
+				pageList.AddRange(newPages);
+			}
 		}
 
 		public void DidDisappear()

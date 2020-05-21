@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.IoC;
+using PhotoHelper.Models;
 using PhotoHelper.Utility.Messages;
 using PhotoHelper.ViewModels;
 using System;
@@ -92,6 +93,22 @@ namespace PhotoHelper.UWP.IoC
 			{
 				Debug.WriteLine(ex.Message);
 			}
+
+			return true;
+		}
+
+		public async Task<bool> BackupList(List<PageModel> pages)
+		{
+			StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(SaveLocation);
+			StorageFile backupFile = await folder.CreateFileAsync("backup.txt", CreationCollisionOption.ReplaceExisting);
+
+			List<string> linesToWrite = new List<string>();
+			foreach (PageModel page in pages)
+			{
+				linesToWrite.Add(page.PageName + ", " + page.PageURL);
+			}
+
+			await FileIO.WriteLinesAsync(backupFile, linesToWrite);
 
 			return true;
 		}

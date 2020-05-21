@@ -14,6 +14,7 @@ using Android.Support.V4.Content;
 using Android.Widget;
 using GalaSoft.MvvmLight.Messaging;
 using PhotoHelper.IoC;
+using PhotoHelper.Models;
 using PhotoHelper.Utility;
 
 namespace PhotoHelper.Droid.IoC
@@ -92,8 +93,20 @@ namespace PhotoHelper.Droid.IoC
 			{
 				Debug.WriteLine(ex.Message);
 			}
-
 			
+			return true;
+		}
+
+		public async Task<bool> BackupList(List<PageModel> pages)
+		{
+			string backupFile = Path.Combine(SaveLocation, "backup.txt");
+			using (var writer = File.CreateText(backupFile))
+			{
+				foreach (PageModel page in pages)
+				{
+					await writer.WriteLineAsync(page.PageName + ", " + page.PageURL);
+				}
+			}
 
 			return true;
 		}

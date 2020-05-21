@@ -26,6 +26,7 @@ namespace PhotoHelper.Views
 			BackBtn.Clicked += BackBtn_Clicked;
 		}
 
+		// should try to move this to the ViewModel...
 		private void PageListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
 			if (((ListView)sender).SelectedItem == null)

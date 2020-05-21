@@ -10,6 +10,8 @@ using System.Linq;
 using System.Net;
 using System.Diagnostics;
 using UIKit;
+using PhotoHelper.Models;
+using System.IO;
 
 namespace PhotoHelper.iOS.IoC
 {
@@ -159,6 +161,22 @@ namespace PhotoHelper.iOS.IoC
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex.Message);
+			}
+
+			return true;
+		}
+
+		public async Task<bool> BackupList(List<PageModel> pages)
+		{
+			var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+			var backupFile = Path.Combine(documents, "backup.txt");
+
+			using (var writer = File.CreateText(backupFile))
+			{
+				foreach (PageModel page in pages)
+				{
+					await writer.WriteLineAsync(page.PageName + ", " + page.PageURL);
+				}
 			}
 
 			return true;

@@ -48,5 +48,33 @@ namespace PhotoHelper.ViewModels
 			}
 		}
 
+		private bool masterWebViewVisible = true;
+		public bool MasterWebViewVisible
+		{
+			get => masterWebViewVisible;
+			set
+			{
+				if (masterWebViewVisible != value)
+				{
+					masterWebViewVisible = value;
+					RaisePropertyChanged("MasterWebViewVisible");
+				}
+			}
+		}
+
+		private bool detailWebViewVisible = false;
+		public bool DetailWebViewVisible
+		{
+			get => detailWebViewVisible;
+			set
+			{
+				if (detailWebViewVisible != value)
+				{
+					detailWebViewVisible = value;
+					RaisePropertyChanged("DetailWebViewVisible");
+				}
+			}
+		}
+
 	}
 }
