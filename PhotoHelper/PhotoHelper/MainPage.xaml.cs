@@ -269,6 +269,20 @@ namespace PhotoHelper
 							  "}" +
 							  "document.addEventListener('touchend', clickHelper, false);";
 			}
+			else if (Device.RuntimePlatform == Device.iOS)
+			{
+				clickScript = "function clickHelper(e) {" +
+								 "var e = window.e || e;" +
+								 "var linkToOpen = e.target.parentNode.parentNode.getAttribute('href');" +
+								 "if (linkToOpen == null)" +
+									"return;" +
+								 "if (e.type == 'touchend' && e.cancelable == true) {" +
+									"e.preventDefault();" +
+									"window.location.href = linkToOpen;" +
+								 "}" +
+							  "}" +
+							  "document.addEventListener('touchend', clickHelper, false);";
+			}
 			else
 			{
 				clickScript = "function clickHelper(e) {" +

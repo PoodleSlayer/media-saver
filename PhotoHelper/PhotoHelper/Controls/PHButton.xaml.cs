@@ -26,6 +26,11 @@ namespace PhotoHelper.Controls
 				BackgroundColor = Color.FromHex("#2196F3");
 				TextColor = Color.White;
 			}
+			else if (Device.RuntimePlatform == Device.iOS)
+			{
+				BackgroundColor = Color.FromHex("#2196F3");
+				TextColor = Color.White;
+			}
 		}
 	}
 }
