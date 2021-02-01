@@ -28,6 +28,7 @@ namespace PhotoHelper.Droid.CustomRenderers
 		public PHWebViewRenderer(Context context) : base(context)
 		{
 			_context = context;
+			SetLayerType(LayerType.Hardware, null);
 		}
 
 		//protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.WebView> e)

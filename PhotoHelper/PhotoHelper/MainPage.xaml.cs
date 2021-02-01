@@ -84,6 +84,7 @@ namespace PhotoHelper
 			{
 				AlbumIndexStackLayout.Margin = new Thickness(0, -15, 0, 0);
 			}
+			URLEntry.Text = @"https://www.tiktok.com/@graceboor_";
 		}
 
 		private async void HideBtn_Clicked(object sender, EventArgs e)
@@ -111,8 +112,23 @@ namespace PhotoHelper
 				await Task.Delay(1000);
 			}
 
-			string dialogHTML = await webby.EvaluateJavaScriptAsync("function fixit(){var a = document.querySelector(\"div[role = 'dialog']\").parentNode.style.visibility = \"hidden\"; var b = document.getElementsByTagName(\"body\")[0].style.removeProperty(\"overflow\");}");
-			string runDialogHTML = await webby.EvaluateJavaScriptAsync("fixit();");
+			if (!ViewModel.IsInstagram)
+			{
+				return false;
+			}	
+
+			if (Device.RuntimePlatform != Device.iOS)
+			{
+				await webby.EvaluateJavaScriptAsync("function fixit(){var a = document.querySelector(\"div[role = 'dialog']\").parentNode.style.visibility = \"hidden\"; var b = document.getElementsByTagName(\"body\")[0].style.removeProperty(\"overflow\");}");
+				await webby.EvaluateJavaScriptAsync("fixit();");
+			}
+			else
+			{
+				await webby.EvaluateJavaScriptAsync("document.querySelector(\"div[role = 'dialog']\").parentNode.style.visibility = \"hidden\";");
+				await webby.EvaluateJavaScriptAsync("document.getElementByTagName(\"body\")[0].style['overflow-y'] = \"scroll\";");
+				await webby.EvaluateJavaScriptAsync("document.getElementByTagName(\"body\")[0].style['-webkit-overflow-scrolling'] = \"touch\";");
+				// -webkit-overflow-scrolling:touch;
+			}
 
 			//await InjectScripts();
 
@@ -184,6 +200,17 @@ namespace PhotoHelper
 				tempURL = URLParts[1]; // should be everything after the .com/
 				URLParts = tempURL.Split('/');
 				URLEntry.Text = URLParts[0];
+				ViewModel.IsInstagram = true;
+				ViewModel.IsTikTok = false;
+			}
+			else if (tempURL.Contains(@"tiktok.com"))
+			{
+				var URLParts = tempURL.Split(new string[] { ".com/" }, StringSplitOptions.None);
+				tempURL = URLParts[1];
+				URLParts = tempURL.Split('/');
+				URLEntry.Text = URLParts[0];
+				ViewModel.IsInstagram = false;
+				ViewModel.IsTikTok = true;
 			}
 		}
 
@@ -208,7 +235,14 @@ namespace PhotoHelper
 		{
 			Device.BeginInvokeOnMainThread(() =>
 			{
-				DetailWebView.Source = "https://instagram.com" + data;
+				if (ViewModel.IsInstagram)
+				{
+					DetailWebView.Source = "https://instagram.com" + data;
+				}
+				else if (ViewModel.IsTikTok)
+				{
+					DetailWebView.Source = "https://tiktok.com" + data;
+				}
 			});
 		}
 
@@ -219,7 +253,14 @@ namespace PhotoHelper
 
 		private void DetailWebView_Navigated(object sender, WebNavigatedEventArgs e)
 		{
-			if (e.Url.Contains("instagram.com/p/") && !e.Url.Equals(currentDetailURL))
+			if (ViewModel.IsInstagram)
+			{
+				if (e.Url.Contains("instagram.com/p/") && !e.Url.Equals(currentDetailURL))
+				{
+					SwapWebViews();
+				}
+			}
+			else if (ViewModel.IsTikTok)
 			{
 				SwapWebViews();
 			}
@@ -257,17 +298,36 @@ namespace PhotoHelper
 			string clickScript = "";
 			if (Device.RuntimePlatform == Device.Android)
 			{
-				clickScript = "function clickHelper(e) {" +
-								 "var e = window.e || e;" +
-								 "var linkToOpen = e.target.parentNode.parentNode.getAttribute('href');" +
-								 "if (linkToOpen == null)" +
-									"return;" +
-								"if (e.type == 'touchend' && e.cancelable == true) {" +
-									"e.preventDefault();" +
-									"invokeCSCode(linkToOpen);" +
-								"}" +
-							  "}" +
-							  "document.addEventListener('touchend', clickHelper, false);";
+				if (ViewModel.IsInstagram)
+				{
+					clickScript = "function clickHelper(e) {" +
+									 "var e = window.e || e;" +
+									 "var linkToOpen = e.target.parentNode.parentNode.getAttribute('href');" +
+									 "if (linkToOpen == null)" +
+										"return;" +
+									 "if (e.type == 'touchend' && e.cancelable == true) {" +
+										"e.preventDefault();" +
+										"invokeCSCode(linkToOpen);" +
+									"}" +
+								  "}" +
+								  "document.addEventListener('touchend', clickHelper, false);";
+				}
+				else if (ViewModel.IsTikTok)
+				{
+					clickScript = "function clickHelper(e) {" +
+									"var e = window.e || e;" +
+									"console.log(e);" +
+									"var linkToOpen = e.target.getAttribute('href');" +
+									"if (linkToOpen == null)" +
+									  "return;" +
+									"if (e.type == 'touchend' && e.cancelable == true) {" +
+									  "e.stopPropagation();" +
+									  "e.preventDefault();" +
+									  "invokeCSCode(linkToOpen);" +
+									"}" +
+								  "}" +
+								  "document.addEventListener('touchend', clickHelper, true);";
+				}
 			}
 			else if (Device.RuntimePlatform == Device.iOS)
 			{
@@ -294,6 +354,7 @@ namespace PhotoHelper
 								 "window.location.href = linkToOpen;" +
 							  "}" +
 							  "document.addEventListener('click', clickHelper, false);";
+
 			}
 			string runScript1 = await webby.EvaluateJavaScriptAsync(csharpScript);
 			string runScript2 = await webby.EvaluateJavaScriptAsync(clickScript);
@@ -404,10 +465,26 @@ namespace PhotoHelper
 			}
 
 			//string pageUrl = await webby.EvaluateJavaScriptAsync("document.location.href");
-			string pageUrl = await DetailWebView.EvaluateJavaScriptAsync("document.location.href");
-			string urlToDownload = await GetImgUrl(pageUrl);
+
+			if (ViewModel.IsInstagram)
+			{
+				string pageUrl = await DetailWebView.EvaluateJavaScriptAsync("document.location.href");
+				string urlToDownload = "";
+
+				urlToDownload = await GetImgUrl(pageUrl);
+				await DownloadURL(urlToDownload);
+			}
+			else if (ViewModel.IsTikTok)
+			{
+				//string pageUrl = await webby.EvaluateJavaScriptAsync("document.location.href");
+				string pageUrl = await DetailWebView.EvaluateJavaScriptAsync("document.location.href");
+				string urlToDownload = await GetTTUrl(pageUrl);
+				await DownloadTTURL(urlToDownload);
+
+				//AppContainer.Container.Resolve<IWebService>().GetCookies();
+			}
 			
-			await DownloadURL(urlToDownload);
+			//await DownloadURL(urlToDownload);
 		}
 
 		/// <summary>
@@ -503,6 +580,13 @@ namespace PhotoHelper
 			return "";
 		}
 
+		private async Task<string> GetTTUrl(string imgPage)
+		{
+			string pageUrl = await DetailWebView.EvaluateJavaScriptAsync("document.querySelector(\'video\').getAttribute(\'src\')");
+
+			return pageUrl;
+		}
+
 		private async Task<bool> DownloadURL(string downloadURL)
 		{
 			if (String.IsNullOrEmpty(downloadURL) || String.IsNullOrEmpty(currentURL))
@@ -558,6 +642,17 @@ namespace PhotoHelper
 			}
 
 			// if download successful, toast or notify the user
+
+			return true;
+		}
+
+		private async Task<bool> DownloadTTURL(string urlName)
+		{
+			//webby.Source = urlName;
+			string userAgent = await webby.EvaluateJavaScriptAsync("navigator.userAgent");
+			AppContainer.Container.Resolve<IWebService>().UserAgent = userAgent;
+
+			await fileHelper.DownloadTTFile(urlName, "test1");
 
 			return true;
 		}

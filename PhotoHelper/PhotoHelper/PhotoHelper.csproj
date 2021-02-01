@@ -14,7 +14,7 @@
     <PackageReference Include="LiteDB" Version="4.1.4" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1829-pre6" />
   </ItemGroup>
 
   <ItemGroup>

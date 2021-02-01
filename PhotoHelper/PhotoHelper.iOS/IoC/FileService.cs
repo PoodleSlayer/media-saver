@@ -166,6 +166,52 @@ namespace PhotoHelper.iOS.IoC
 			return true;
 		}
 
+		public async Task<bool> DownloadTTFile(string downloadURL, string filenameToUse)
+		{
+			// download the image and get it into an NSData
+			var webClient = new WebClient();
+			webClient.DownloadDataCompleted += (s, e) =>
+			{
+				var bytes = e.Result; // gets downloaded data
+
+				var library = PHPhotoLibrary.SharedPhotoLibrary;
+				var collection = selectedCollection;
+
+				library.PerformChanges(() =>
+				{
+					var options = new PHAssetResourceCreationOptions();
+					options.OriginalFilename = "testimage.jpg";
+					var createRequest = PHAssetCreationRequest.CreationRequestForAsset();
+					createRequest.AddResource(PHAssetResourceType.Photo, NSData.FromArray(bytes), options);
+
+					// save to specific album. need to figure out how to not duplicate image to Camera Roll
+					var placeholder = createRequest.PlaceholderForCreatedAsset;
+					var albumChangeRequest = PHAssetCollectionChangeRequest.ChangeRequest(collection);
+					albumChangeRequest.AddAssets(new PHObject[] { placeholder });
+				},
+				(ok, error) =>
+				{
+					if (error != null)
+					{
+						Debug.WriteLine(error.LocalizedDescription);
+					}
+				});
+			};
+			var url = new Uri(downloadURL);
+
+			try
+			{
+				Task tasky = webClient.DownloadDataTaskAsync(url);
+				await tasky;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.Message);
+			}
+
+			return true;
+		}
+
 		public async Task<bool> BackupList(List<PageModel> pages)
 		{
 			var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);

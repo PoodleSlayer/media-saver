@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Command;
+using System;
 
 namespace PhotoHelper.ViewModels
 {
@@ -9,6 +10,37 @@ namespace PhotoHelper.ViewModels
     public class MainViewModel : PHViewModel
     {
 		public event EventHandler URLChanged;
+		public RelayCommand ToggleCommand { get; set; }
+
+		public MainViewModel()
+		{
+			SetupCommands();
+			IsInstagram = true;
+			ModeLabel = "Instagram";
+		}
+
+		private void SetupCommands()
+		{
+			ToggleCommand = new RelayCommand(() =>
+			{
+				ToggleMode();
+			});
+		}
+
+		private void ToggleMode()
+		{
+			// flip them! should always be opposite
+			IsInstagram = !IsInstagram;
+			IsTikTok = !IsTikTok;
+			if (IsInstagram)
+			{
+				ModeLabel = "Instagram";
+			}
+			else
+			{
+				ModeLabel = "TikTok";
+			}
+		}
 		
 		private void OnURLChanged()
 		{
@@ -72,6 +104,24 @@ namespace PhotoHelper.ViewModels
 				{
 					detailWebViewVisible = value;
 					RaisePropertyChanged("DetailWebViewVisible");
+				}
+			}
+		}
+
+		public bool IsInstagram { get; set; }
+
+		public bool IsTikTok { get; set; }
+
+		private string modeLabel = "";
+		public string ModeLabel
+		{
+			get => modeLabel;
+			set
+			{
+				if (modeLabel != value)
+				{
+					modeLabel = value;
+					RaisePropertyChanged("ModeLabel");
 				}
 			}
 		}

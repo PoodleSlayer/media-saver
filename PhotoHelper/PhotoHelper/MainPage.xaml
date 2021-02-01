@@ -77,8 +77,12 @@
 			<StackLayout x:Name="AlbumIndexStackLayout"
 						 Orientation="Horizontal"
 						 HorizontalOptions="CenterAndExpand">
+				<Button x:Name="ModeBtn"
+						Text="{Binding ModeLabel}"
+						Command="{Binding ToggleCommand}"
+						HorizontalOptions="Start"
+						/>
 				<Label Text="Item in Album to Download:"
-					   HorizontalOptions="Start"
 					   VerticalOptions="Center" />
 				<Entry x:Name="AlbumIndex"
 					   FontSize="Small"

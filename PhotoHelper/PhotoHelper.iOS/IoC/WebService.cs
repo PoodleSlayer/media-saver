@@ -11,6 +11,7 @@ namespace PhotoHelper.iOS.IoC
 {
 	public class WebService : IWebService
 	{
+		public string UserAgent { get; set; }
 		public void ClearCache()
 		{
 			NSHttpCookieStorage CookieStorage = NSHttpCookieStorage.SharedStorage;
@@ -18,6 +19,11 @@ namespace PhotoHelper.iOS.IoC
 			{
 				CookieStorage.DeleteCookie(cookie);
 			}
+		}
+
+		public string GetCookies()
+		{
+			return "";
 		}
 	}
 }

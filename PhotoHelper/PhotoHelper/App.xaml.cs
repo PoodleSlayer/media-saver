@@ -12,6 +12,13 @@ namespace PhotoHelper
 {
 	public partial class App : Application
 	{
+		public App()
+		{
+			InitializeComponent();
+
+			MainPage = new MainPage();
+		}
+
 		public App(AppSetup setup)
 		{
 			AppContainer.Container = setup.CreateContainer();

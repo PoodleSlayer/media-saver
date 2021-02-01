@@ -97,6 +97,45 @@ namespace PhotoHelper.UWP.IoC
 			return true;
 		}
 
+		public async Task<bool> DownloadTTFile(string downloadURL, string filenameToUse)
+		{
+			if (String.IsNullOrEmpty(SaveLocation))
+			{
+				return false;
+			}
+
+			try
+			{
+				Uri source = new Uri(downloadURL);
+
+				HttpClient client = new HttpClient();
+				HttpResponseMessage result = await client.GetAsync(new Uri(downloadURL));
+
+				StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(SaveLocation);
+
+				// generate the first available filename
+				int count = 1;
+				string fileType = downloadURL.Contains(@".mp4?") ? ".mp4" : ".jpg";
+				while (await folder.TryGetItemAsync(filenameToUse + count + fileType) != null)
+				{
+					count++;
+				}
+
+				StorageFile destinationFile = await folder.CreateFileAsync(filenameToUse + count + fileType, CreationCollisionOption.GenerateUniqueName);
+
+				using (var filestream = await destinationFile.OpenAsync(FileAccessMode.ReadWrite))
+				{
+					await result.Content.WriteToStreamAsync(filestream);
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.Message);
+			}
+
+			return true;
+		}
+
 		public async Task<bool> BackupList(List<PageModel> pages)
 		{
 			StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(SaveLocation);

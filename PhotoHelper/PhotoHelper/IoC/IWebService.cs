@@ -9,6 +9,8 @@ namespace PhotoHelper.IoC
 	/// </summary>
 	public interface IWebService
 	{
+		string UserAgent { get; set; }
 		void ClearCache();
+		string GetCookies();
 	}
 }

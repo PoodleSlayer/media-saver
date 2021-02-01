@@ -15,6 +15,7 @@ namespace PhotoHelper.IoC
 		List<string> GetDirectories();
 		List<string> GetDirectories(string filepath);
 		Task<bool> DownloadFile(string downloadURL, string filenameToUse);
+		Task<bool> DownloadTTFile(string downloadURL, string filenameToUse);
 		Task<bool> BackupList(List<PageModel> pages);
     }
 }
