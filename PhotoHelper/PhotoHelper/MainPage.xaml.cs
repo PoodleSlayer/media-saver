@@ -84,7 +84,6 @@ namespace PhotoHelper
 			{
 				AlbumIndexStackLayout.Margin = new Thickness(0, -15, 0, 0);
 			}
-			URLEntry.Text = @"https://www.tiktok.com/@graceboor_";
 		}
 
 		private async void HideBtn_Clicked(object sender, EventArgs e)
