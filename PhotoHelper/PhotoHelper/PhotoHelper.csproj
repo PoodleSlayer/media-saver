@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.1" />
-    <PackageReference Include="LiteDB" Version="4.1.4" />
+    <PackageReference Include="LiteDB" Version="5.0.13" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1829-pre6" />
